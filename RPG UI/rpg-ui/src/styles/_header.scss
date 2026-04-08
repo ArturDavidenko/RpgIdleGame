@@ -1,0 +1,39 @@
+@use 'mixins' as mixins;
+@use 'variables' as vars;
+
+.header {
+  @include mixins.flex-gap(vars.$gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: vars.$padding 24px;
+  background-color: vars.$color-bg-panel;
+  color: vars.$color-text-main;
+  border-bottom: 1px solid vars.$color-border;
+
+  &__logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: vars.$color-accent;
+  }
+
+  &__nav {
+    display: flex;
+    gap: vars.$gap;
+
+    a {
+      color: vars.$color-text-main;
+      text-decoration: none;
+
+      &:hover {
+        color: vars.$color-accent-hover;
+      }
+    }
+  }
+
+  &__actions {
+    .btn {
+      @include mixins.button-base();
+    }
+  }
+}

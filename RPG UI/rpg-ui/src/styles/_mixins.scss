@@ -1,0 +1,24 @@
+@use 'variables' as vars;
+
+@mixin flex-gap($gap: $gap) {
+  display: flex;
+  gap: $gap;
+}
+
+@mixin center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-base($bg: vars.$color-accent, $hover: vars.$color-accent-hover, $color: vars.$color-bg-main) {
+  background-color: $bg;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $color;
+  &:hover {
+    background-color: $hover;
+  }
+}

@@ -1,0 +1,22 @@
+@use 'variables' as vars;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: vars.$font-primary;
+  font-size: vars.$font-size-base;
+  background-color: vars.$color-bg-main;
+  color: vars.$color-text-main;
+}
+
+a {
+  text-decoration: none;
+  color: vars.$color-accent;
+  &:hover {
+    color: vars.$color-accent-hover;
+  }
+}
