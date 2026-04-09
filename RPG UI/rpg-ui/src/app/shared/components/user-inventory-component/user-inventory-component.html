@@ -1,0 +1,23 @@
+<div class="inventory-container" #gridRef>
+    <app-inventory-grid-component 
+        [cols]="cols" 
+        [rows]="rows"
+        [hoverCell]="hoverCell"
+        [hoverValid]="hoverValid"
+        [draggedItem]="draggedItem"
+        (cellClick)="onCellClick($event)" 
+        (cellHover)="onCellHover($event)"
+    >
+    </app-inventory-grid-component>
+
+    <app-inventory-item-component
+        *ngFor="let item of items"
+        [item]="item"
+        [isDragging]="draggedItem === item"
+        [dragX]="mouseX - dragOffsetX"
+        [dragY]="mouseY - dragOffsetY"
+        (mouseDown)="onItemMouseDown($event)"
+    ></app-inventory-item-component>
+</div>
+
+<button class="btn">TEST</button>

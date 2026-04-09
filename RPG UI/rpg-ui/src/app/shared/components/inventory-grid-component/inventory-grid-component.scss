@@ -1,0 +1,46 @@
+.grid {
+  position: relative;
+}
+
+.cell {
+  position: relative;
+  pointer-events: auto;
+  
+  .cell-texture {
+    pointer-events: none;
+    user-select: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.hover-valid {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 255, 0, 0.3);
+      pointer-events: none;
+    }
+  }
+
+  &.hover-invalid {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 0, 0, 0.3);
+      pointer-events: none;
+    }
+  }
+}

@@ -1,1 +1,18 @@
-<p>inventory-grid-component works!</p>
+<div class="grid" [ngStyle]="gridStyles">
+  <div
+    class="cell"
+    *ngFor="let cell of cells"
+    [class.hover-valid]="isInHoverArea(cell.x, cell.y) && hoverValid"
+    [class.hover-invalid]="isInHoverArea(cell.x, cell.y) && !hoverValid"
+    [class.hover-single]="hoverCell?.x === cell.x && hoverCell?.y === cell.y && !draggedItem"
+    (mouseenter)="onHover(cell); onEnter(cell)"
+    (click)="onClick(cell)"
+  >
+    <img
+      class="cell-texture"
+      [src]="cellTexture"
+      alt="cell"
+      draggable="false"
+    />
+  </div>
+</div>

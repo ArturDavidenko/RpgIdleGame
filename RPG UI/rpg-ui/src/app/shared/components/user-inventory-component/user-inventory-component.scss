@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+}
+
+app-inventory-item {
+  position: absolute;
+  z-index: 10;
+}
+
+.inventory-container {
+  position: relative;      
+  width: fit-content;
+  height: fit-content;
+  user-select: none;
+}

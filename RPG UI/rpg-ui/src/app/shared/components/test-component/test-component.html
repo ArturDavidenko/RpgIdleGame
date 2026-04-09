@@ -1,3 +1,11 @@
 <p>test-component works!</p>
 
+<app-inventory-grid-component 
+    [cols]="15" 
+    [rows]="10" 
+    (cellClick)="onCellClick($event)" 
+    (cellHover)="onCellHover($event)"
+>
+</app-inventory-grid-component>
+
 <button class="btn">TEST</button>
