@@ -34,3 +34,43 @@
     user-select: none; 
   }
 }
+
+
+// Highlight effect on click
+// .inventory-item:active {
+//   transform: scale(1.05);
+//   filter: brightness(1.2);
+// }
+
+// Shine effect
+// .inventory-item {
+//   overflow: hidden;
+// }
+
+// .inventory-item::after {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: -150%;
+//   width: 60%;
+//   height: 100%;
+//   z-index: 2;
+//   pointer-events: none;
+
+//   background: linear-gradient(
+//     120deg,
+//     transparent,
+//     rgba(255, 255, 255, 0.25),
+//     transparent
+//   );
+//   transform: skewX(-20deg);
+// }
+
+// .inventory-item:hover::after {
+//   animation: shine 600ms ease;
+// }
+
+// @keyframes shine {
+//   0% { left: -150%; }
+//   100% { left: 150%; }
+// }
