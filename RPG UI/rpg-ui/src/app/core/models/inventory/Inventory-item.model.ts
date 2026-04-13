@@ -1,114 +1,130 @@
-export interface InventoryItem {
-  id: string;           
-  name: string;         
-  description?: string; 
-  width: number;        
+export interface ItemDefinition {
+  id: string; // "pickaxe", "gold", "wand"
+
+  name: string;
+  description?: string;
+
+  type: 'weapon' | 'currency';
+
+  width: number;
   height: number;
-  x: number;
-  y: number;       
-  textureUrl: string;   
-  rotation?: number;    
+
+  textureUrl: string;
+
+  stackable: boolean;
+  maxStack?: number;
 }
+
+export interface InventoryItem {
+  uid: string;          
+  definitionId: string;
+
+  x: number;
+  y: number;
+
+  quantity?: number;
+}
+
+export interface InventoryItemView {
+  uid: string;
+
+  x: number;
+  y: number;
+
+  width: number;
+  height: number;
+
+  name: string;
+  description?: string;
+  textureUrl: string;
+
+  quantity?: number;
+}
+
+export const ITEM_DEFINITIONS: ItemDefinition[] = [
+  {
+    id: 'pickaxe',
+    name: 'Pickaxe',
+    description: 'IDK just a pickaxe',
+    type: 'weapon',
+    width: 2,
+    height: 3,
+    textureUrl: 'assets/InventoryImages/pickaxe.png',
+    stackable: false
+  },
+  {
+    id: 'magic_wand',
+    name: 'Magic Wand',
+    description: 'A basic magic wand',
+    type: 'weapon',
+    width: 2,
+    height: 5,
+    textureUrl: 'assets/InventoryImages/magic-wand.png',
+    stackable: false
+  },
+  {
+    id: 'scream_orb',
+    name: 'Scream orb',
+    description: 'Unpredictable chance item stats',
+    type: 'currency',
+    width: 1,
+    height: 1,
+    textureUrl: 'assets/InventoryImages/scream-orb.png',
+    stackable: true,
+    maxStack: 20
+  }
+];
 
 export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
   {
-    id: 'item1',
-    name: 'Pickaxe',
-    description: 'IDK just a pickaxe',
-    width: 2,
-    height: 3,
+    uid: 'inv_1',
+    definitionId: 'pickaxe',
     x: 0,
-    y: 0,
-    textureUrl: 'assets/InventoryImages/pickaxe.png'
+    y: 0
   },
   {
-    id: 'item2',
-    name: 'Scream orb',
-    description: 'Unpredictable chance item stats and add to item corrupted status',
-    width: 1,
-    height: 1,
+    uid: 'inv_2',
+    definitionId: 'scream_orb',
     x: 2,
-    y: 0,   
-    textureUrl: 'assets/InventoryImages/scream-orb.png'
+    y: 0,
+    quantity: 5
   },
   {
-    id: 'item3',
-    name: 'Magic Wand',
-    description: 'A basic magic wand',
-    width: 2,
-    height: 5,
+    uid: 'inv_3',
+    definitionId: 'magic_wand',
     x: 3,
-    y: 0,
-    textureUrl: 'assets/InventoryImages/magic-wand.png'
+    y: 0
   },
   {
-    id: 'item4',
-    name: 'Magic Wand',
-    description: 'A basic magic wand',
-    width: 2,
-    height: 5,
+    uid: 'inv_4',
+    definitionId: 'magic_wand',
     x: 5,
-    y: 0,
-    textureUrl: 'assets/InventoryImages/magic-wand.png'
+    y: 0
   },
   {
-    id: 'item5',
-    name: 'Magic Wand',
-    description: 'A basic magic wand',
-    width: 2,
-    height: 5,
+    uid: 'inv_5',
+    definitionId: 'magic_wand',
     x: 7,
-    y: 0,
-    textureUrl: 'assets/InventoryImages/magic-wand.png'
+    y: 0
   },
   {
-    id: 'item6',
-    name: 'Magic Wand',
-    description: 'A basic magic wand',
-    width: 2,
-    height: 5,
+    uid: 'inv_6',
+    definitionId: 'magic_wand',
     x: 9,
-    y: 0,
-    textureUrl: 'assets/InventoryImages/magic-wand.png'
+    y: 0
   },
   {
-    id: 'item7',
-    name: 'Scream orb',
-    description: 'Unpredictable chance item stats and add to item corrupted status',
-    width: 1,
-    height: 1,
+    uid: 'inv_7',
+    definitionId: 'scream_orb',
     x: 11,
-    y: 0,   
-    textureUrl: 'assets/InventoryImages/scream-orb.png'
+    y: 0,
+    quantity: 3
   },
   {
-    id: 'item8',
-    name: 'Scream orb',
-    description: 'Unpredictable chance item stats and add to item corrupted status',
-    width: 1,
-    height: 1,
+    uid: 'inv_8',
+    definitionId: 'scream_orb',
     x: 12,
-    y: 0,   
-    textureUrl: 'assets/InventoryImages/scream-orb.png'
-  },
-  {
-    id: 'item9',
-    name: 'Scream orb',
-    description: 'Unpredictable chance item stats and add to item corrupted status',
-    width: 1,
-    height: 1,
-    x: 13,
-    y: 0,   
-    textureUrl: 'assets/InventoryImages/scream-orb.png'
-  },
-  {
-    id: 'item10',
-    name: 'Scream orb',
-    description: 'Unpredictable chance item stats and add to item corrupted status',
-    width: 1,
-    height: 1,
-    x: 14,
-    y: 0,   
-    textureUrl: 'assets/InventoryImages/scream-orb.png'
+    y: 0,
+    quantity: 7
   }
 ];

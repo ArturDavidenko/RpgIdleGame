@@ -1,12 +1,11 @@
 <div
   class="inventory-item"
-  draggable="true"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
   (mousedown)="onMouseDown($event)"
   [style.transform]="getTransform()"
-  [style.width.px]="item.width * 32"
-  [style.height.px]="item.height * 32"
+  [style.width.px]="(item?.width ?? 1) * 32"
+  [style.height.px]="(item?.height ?? 1) * 32"
 >
   <img [src]="item.textureUrl" [alt]="item.name" />
 </div>

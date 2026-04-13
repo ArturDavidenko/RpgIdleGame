@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { InventoryItem } from '../../../core/models/inventory/Inventory-item.model';
+import { InventoryItemView } from '../../../core/models/inventory/Inventory-item.model';
 
 @Component({
   selector: 'app-inventory-item-component',
@@ -8,16 +8,16 @@ import { InventoryItem } from '../../../core/models/inventory/Inventory-item.mod
   styleUrl: './inventory-item-component.scss',
 })
 export class InventoryItemComponent {
-  @Input() item!: InventoryItem;
+  @Input() item!: InventoryItemView;
 
   @Input() isDragging = false;
   @Input() dragX = 0;
   @Input() dragY = 0;
 
-  @Output() hover = new EventEmitter<InventoryItem>();
-  @Output() hoverEnd = new EventEmitter<InventoryItem>();
+  @Output() hover = new EventEmitter<InventoryItemView>();
+  @Output() hoverEnd = new EventEmitter<InventoryItemView>();
 
-  @Output() mouseDown = new EventEmitter<{ event: MouseEvent; item: InventoryItem }>();
+  @Output() mouseDown = new EventEmitter<{ event: MouseEvent; item: InventoryItemView }>();
 
   onMouseDown(event: MouseEvent) {
     this.mouseDown.emit({ event, item: this.item });
@@ -40,8 +40,6 @@ export class InventoryItemComponent {
       ? this.dragY
       : (this.item.y ?? 0) * 32;
 
-    const rotation = this.item.rotation || 0;
-
-    return `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+    return `translate(${x}px, ${y}px)`;
   }
 }

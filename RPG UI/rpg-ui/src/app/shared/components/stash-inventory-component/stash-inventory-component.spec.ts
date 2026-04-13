@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserInventoryComponent } from './user-inventory-component';
+import { StashInventoryComponent } from './stash-inventory-component';
 
-describe('UserInventoryComponent', () => {
-  let component: UserInventoryComponent;
-  let fixture: ComponentFixture<UserInventoryComponent>;
+describe('StashInventoryComponent', () => {
+  let component: StashInventoryComponent;
+  let fixture: ComponentFixture<StashInventoryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserInventoryComponent]
+      imports: [StashInventoryComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserInventoryComponent);
+    fixture = TestBed.createComponent(StashInventoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

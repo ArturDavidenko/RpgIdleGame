@@ -1,23 +1,23 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GridCell, InventoryGridComponent } from '../inventory-grid-component/inventory-grid-component';
 import { InventoryStateService } from '../../../core/services/states/inventory-state-service';
-import { InventoryItem } from '../../../core/models/inventory/Inventory-item.model';
+import { InventoryItem, InventoryItemView } from '../../../core/models/inventory/Inventory-item.model';
 import { NgFor } from '@angular/common';
 import { InventoryItemComponent } from '../inventory-item-component/inventory-item-component';
 
 @Component({
-  selector: 'app-user-inventory-component',
+  selector: 'app-stash-inventory-component',
   imports: [InventoryGridComponent, NgFor, InventoryItemComponent],
-  templateUrl: './user-inventory-component.html',
-  styleUrl: './user-inventory-component.scss',
+  templateUrl: './stash-inventory-component.html',
+  styleUrl: './stash-inventory-component.scss',
 })
-export class UserInventoryComponent implements OnInit {
- items: InventoryItem[] = [];
+export class StashInventoryComponent implements OnInit {
+ items: InventoryItemView[] = [];
   cols = 15;
   rows = 10;
   readonly cellSize = 32;
 
-  draggedItem: InventoryItem | null = null;
+  draggedItem: InventoryItemView | null = null;
   private dragStartX: number = 0;
   private dragStartY: number = 0;
 
@@ -34,12 +34,13 @@ export class UserInventoryComponent implements OnInit {
   constructor(private inventoryState: InventoryStateService) {}
 
   ngOnInit() {
-    this.inventoryState.items$.subscribe(items => {
+    this.inventoryState.itemsView$.subscribe(items => {
+      console.log('VIEW ITEMS', items);
       this.items = items;
     });
   }
 
-  onItemMouseDown(data: { event: MouseEvent; item: InventoryItem }) {
+  onItemMouseDown(data: { event: MouseEvent; item: InventoryItemView }) {
     const { event, item } = data;
     
     this.draggedItem = item;
@@ -96,9 +97,18 @@ export class UserInventoryComponent implements OnInit {
     dropY = Math.max(0, Math.min(dropY, this.rows - this.draggedItem.height));
 
     if (this.canPlaceItem(this.draggedItem, dropX, dropY)) {
-      this.draggedItem.x = dropX;
-      this.draggedItem.y = dropY;
-      this.inventoryState.updateItems(this.items);
+
+      const realItems = this.inventoryState.getItems();
+
+      const updated = realItems.map(i => {
+        if (i.uid === this.draggedItem!.uid) {
+          return { ...i, x: dropX, y: dropY };
+        }
+        return i;
+      });
+
+      this.inventoryState.updateItems(updated);
+
     } else {
       this.mouseX = this.dragStartX * this.cellSize + this.dragOffsetX;
       this.mouseY = this.dragStartY * this.cellSize + this.dragOffsetY;
@@ -125,7 +135,7 @@ export class UserInventoryComponent implements OnInit {
     this.hoverValid = this.canPlaceItem(this.draggedItem, cellX, cellY);
   }
 
-  private canPlaceItem(item: InventoryItem, x: number, y: number): boolean {
+  private canPlaceItem(item: InventoryItemView, x: number, y: number): boolean {
     if (x < 0 || y < 0 || x + item.width > this.cols || y + item.height > this.rows) {
       return false;
     }
