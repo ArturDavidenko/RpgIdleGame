@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { InventoryItem, InventoryItemView, ITEM_DEFINITIONS, ItemDefinition, MOCK_INVENTORY_ITEMS } from '../../models/inventory/Inventory-item.model';
+import { InventoryItem, InventoryItemView, ITEM_DEFINITIONS, ItemDefinition, MOCK_INVENTORY_ITEMS } from '../models/Inventory-item.model';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { combineLatest, map } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { combineLatest, map } from 'rxjs';
 export class InventoryStateService {
   private itemsSubject = new BehaviorSubject<InventoryItem[]>(MOCK_INVENTORY_ITEMS);
   private definitionsSubject = new BehaviorSubject<ItemDefinition[]>(ITEM_DEFINITIONS);
+  
 
   items$ = this.itemsSubject.asObservable();
   definitions$ = this.definitionsSubject.asObservable();

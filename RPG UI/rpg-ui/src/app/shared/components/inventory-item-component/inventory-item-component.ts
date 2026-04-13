@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { InventoryItemView } from '../../../core/models/inventory/Inventory-item.model';
+import { InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
 
 @Component({
   selector: 'app-inventory-item-component',
