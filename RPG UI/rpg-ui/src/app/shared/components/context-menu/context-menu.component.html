@@ -1,0 +1,11 @@
+<div
+  class="context-menu"
+  *ngIf="visible"
+  [style.left.px]="position.x"
+  [style.top.px]="position.y"
+  (click)="$event.stopPropagation()"
+>
+  <ul>
+    <li (click)="onDelete()">Delete</li>
+  </ul>
+</div>

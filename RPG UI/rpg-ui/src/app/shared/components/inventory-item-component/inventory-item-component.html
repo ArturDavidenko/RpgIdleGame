@@ -3,9 +3,17 @@
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
   (mousedown)="onMouseDown($event)"
+  (contextmenu)="onContextMenu($event)"
   [style.transform]="getTransform()"
   [style.width.px]="(item?.width ?? 1) * 32"
   [style.height.px]="(item?.height ?? 1) * 32"
 >
   <img [src]="item.textureUrl" [alt]="item.name" />
 </div>
+
+<app-context-menu
+  [item]="item"
+  [position]="contextMenuPosition"
+  [visible]="contextMenuVisible"
+  (close)="onContextMenuClose()"
+></app-context-menu>

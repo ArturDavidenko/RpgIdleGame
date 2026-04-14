@@ -43,6 +43,8 @@ export class StashInventoryComponent implements OnInit {
   onItemMouseDown(data: { event: MouseEvent; item: InventoryItemView }) {
     const { event, item } = data;
 
+    if (event.button !== 0) return;
+
     const rect = this.gridElement.nativeElement.getBoundingClientRect();
 
     this.dragDrop.startDrag(
