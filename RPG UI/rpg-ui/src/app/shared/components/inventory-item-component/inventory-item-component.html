@@ -8,7 +8,16 @@
   [style.width.px]="(item?.width ?? 1) * 32"
   [style.height.px]="(item?.height ?? 1) * 32"
 >
-  <img [src]="item.textureUrl" [alt]="item.name" />
+  <div class="item-content">
+    <img [src]="item.textureUrl" [alt]="item.name" />
+
+    @if (item.stackable && (item.quantity ?? 1) > 1) {
+      <span class="stack-badge">
+        {{ item.quantity }}
+      </span>
+    }
+  </div>
+  
 </div>
 
 <app-context-menu

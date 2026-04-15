@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { InventoryItemView } from '../models/Inventory-item.model';
 import { GridCell } from '../../../shared/components/inventory-grid-component/inventory-grid-component';
 import { InventoryRulesService } from '../rules/inventory-rules.service';
-import { InventoryStateService } from '../state/inventory-state-service';
 
 export interface InventoryDragContext {
   cols: number;
@@ -10,24 +9,30 @@ export interface InventoryDragContext {
   cellSize: number;
 }
 
+export type DragDropResult = 
+  | {
+      type: 'invalid';
+    }
+  | {
+      type: 'drop';
+      itemId: string;
+      position: { x: number; y: number };
+      targetItemId?: string;
+    };
+
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryDragDropService {
   draggedItem: InventoryItemView | null = null;
 
-  dragStart = { x: 0, y: 0 };
   dragOffset = { x: 0, y: 0 };
-
   mouse = { x: 0, y: 0 };
 
   hoverCell: GridCell | null = null;
   hoverValid = false;
 
-  constructor(
-    private rules: InventoryRulesService,
-    private state: InventoryStateService
-  ) {}
+  constructor(private rules: InventoryRulesService) {}
 
   startDrag(
     item: InventoryItemView,
@@ -37,8 +42,6 @@ export class InventoryDragDropService {
     cellSize: number
   ) {
     this.draggedItem = item;
-
-    this.dragStart = { x: item.x, y: item.y };
 
     const gridX = mouseX - rect.left;
     const gridY = mouseY - rect.top;
@@ -68,8 +71,8 @@ export class InventoryDragDropService {
     const itemLeft = gridX - this.dragOffset.x;
     const itemTop = gridY - this.dragOffset.y;
 
-    const cellX = Math.round(itemLeft / context.cellSize);
-    const cellY = Math.round(itemTop / context.cellSize);
+    const cellX = this.getStableCell(itemLeft, context.cellSize);
+    const cellY = this.getStableCell(itemTop, context.cellSize);
 
     this.updateHover(cellX, cellY, context, items);
   }
@@ -84,15 +87,18 @@ export class InventoryDragDropService {
 
     const item = this.draggedItem;
 
+    const normalizedX = Math.max(0, cellX);
+    const normalizedY = Math.max(0, cellY);
+
     this.hoverCell = {
-      x: Math.max(0, cellX),
-      y: Math.max(0, cellY),
+      x: normalizedX,
+      y: normalizedY,
     };
 
     this.hoverValid = this.rules.canPlaceItem(
       item,
-      cellX,
-      cellY,
+      normalizedX,
+      normalizedY,
       items,
       context.cols,
       context.rows
@@ -102,12 +108,9 @@ export class InventoryDragDropService {
   drop(
     context: InventoryDragContext,
     itemsView: InventoryItemView[]
-  ) {
-    if (!this.draggedItem) return;
-
-    if (!this.hoverValid) {
-      this.reset();
-      return;
+  ): DragDropResult {
+    if (!this.draggedItem) {
+      return { type: 'invalid' };
     }
 
     const item = this.draggedItem;
@@ -115,35 +118,30 @@ export class InventoryDragDropService {
     const itemLeft = this.mouse.x - this.dragOffset.x;
     const itemTop = this.mouse.y - this.dragOffset.y;
 
-    let dropX = Math.round(itemLeft / context.cellSize);
-    let dropY = Math.round(itemTop / context.cellSize);
+    const dropX = this.getStableCell(itemLeft, context.cellSize);
+    const dropY = this.getStableCell(itemTop, context.cellSize);
 
-    dropX = Math.max(0, Math.min(dropX, context.cols - item.width));
-    dropY = Math.max(0, Math.min(dropY, context.rows - item.height));
+    const clampedX = Math.max(0, Math.min(dropX, context.cols - item.width));
+    const clampedY = Math.max(0, Math.min(dropY, context.rows - item.height));
 
-    const canPlace = this.rules.canPlaceItem(
-      item,
-      dropX,
-      dropY,
+    const targetItem = this.findItemAtPosition(
+      clampedX,
+      clampedY,
+      item.width,
+      item.height,
       itemsView,
-      context.cols,
-      context.rows
+      item.uid
     );
 
-    if (canPlace) {
-      const items = this.state.getItems();
-
-      const updated = items.map(i => {
-        if (i.uid === item.uid) {
-          return { ...i, x: dropX, y: dropY };
-        }
-        return i;
-      });
-
-      this.state.updateItems(updated);
-    }
+    const result: DragDropResult = {
+      type: 'drop',
+      itemId: item.uid,
+      position: { x: clampedX, y: clampedY },
+      targetItemId: targetItem?.uid,
+    };
 
     this.reset();
+    return result;
   }
 
   cancel() {
@@ -154,5 +152,32 @@ export class InventoryDragDropService {
     this.draggedItem = null;
     this.hoverCell = null;
     this.hoverValid = false;
+  }
+
+  private findItemAtPosition(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    items: InventoryItemView[],
+    ignoreUid?: string
+  ): InventoryItemView | null {
+    return (
+      items.find(item => {
+        if (ignoreUid && item.uid === ignoreUid) return false;
+
+        return !(
+          x + width <= item.x ||
+          x >= item.x + item.width ||
+          y + height <= item.y ||
+          y >= item.y + item.height
+        );
+      }) ?? null
+    );
+  }
+
+  private getStableCell(value: number, cellSize: number): number {
+    const threshold = cellSize * 0.5;
+    return Math.floor((value + threshold) / cellSize);
   }
 }

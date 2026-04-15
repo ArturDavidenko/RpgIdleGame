@@ -6,6 +6,12 @@
   (click)="$event.stopPropagation()"
 >
   <ul>
-    <li (click)="onDelete()">Delete</li>
+  
+    @if (item?.stackable) {
+      <li>Use</li>
+      <li>Split</li>
+    }
+
+    <li (click)="onDelete()">Sell</li>
   </ul>
 </div>

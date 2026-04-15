@@ -24,6 +24,10 @@ export class InventoryStateService {
     return this.itemsSubject.getValue();
   }
 
+  getDefinitions(): ItemDefinition[] {
+    return this.definitionsSubject.getValue();
+  }
+
   setItems(items: InventoryItem[]) {
     this.itemsSubject.next(items);
   }
@@ -71,7 +75,8 @@ function mapToView(
     description: def.description,
     textureUrl: def.textureUrl,
 
-    quantity: item.quantity
+    quantity: item.quantity,
+    stackable: def.stackable
   };
 }
 

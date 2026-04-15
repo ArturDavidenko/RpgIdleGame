@@ -39,6 +39,7 @@ export interface InventoryItemView {
   textureUrl: string;
 
   quantity?: number;
+  stackable: boolean;
 }
 
 export const ITEM_DEFINITIONS: ItemDefinition[] = [
@@ -126,5 +127,19 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
     x: 12,
     y: 0,
     quantity: 7
+  },
+  {
+    uid: 'inv_9',
+    definitionId: 'scream_orb',
+    x: 13,
+    y: 0,
+    quantity: 20
+  },
+  {
+    uid: 'inv_10',
+    definitionId: 'scream_orb',
+    x: 14,
+    y: 0,
+    quantity: 1
   }
 ];
