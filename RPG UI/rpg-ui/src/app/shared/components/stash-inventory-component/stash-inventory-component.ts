@@ -7,10 +7,11 @@ import { InventoryItemComponent } from '../inventory-item-component/inventory-it
 import { InventoryDragContext, InventoryDragDropService } from '../../../core/inventory/interactions/inventory-drag-drop.service';
 import { InventoryService } from '../../../core/inventory/domain/inventory.service';
 import { SplitModalComponent } from '../split-modal-component/split-modal.component';
+import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
 
 @Component({
   selector: 'app-stash-inventory-component',
-  imports: [InventoryGridComponent, NgFor, InventoryItemComponent, SplitModalComponent],
+  imports: [InventoryGridComponent, NgFor, InventoryItemComponent, SplitModalComponent, ItemTooltipComponent],
   templateUrl: './stash-inventory-component.html',
   styleUrl: './stash-inventory-component.scss',
 })

@@ -1,3 +1,10 @@
+export enum ItemRarity {
+  Common = 'Common',
+  Magic = 'Magic',
+  Rare = 'Rare',
+  Unique = 'Unique'
+}
+
 export interface ItemDefinition {
   id: string; // "pickaxe", "gold", "wand"
 
@@ -10,7 +17,7 @@ export interface ItemDefinition {
   height: number;
 
   textureUrl: string;
-
+  rarity?: ItemRarity;
   stackable: boolean;
   maxStack?: number;
 }
@@ -23,6 +30,7 @@ export interface InventoryItem {
   y: number;
 
   quantity?: number;
+  rarity?: ItemRarity;
   inventoryId?: string;
 }
 
@@ -35,6 +43,8 @@ export interface InventoryItemView {
   width: number;
   height: number;
 
+  type: 'weapon' | 'currency';
+  rarity?: ItemRarity;
   name: string;
   description?: string;
   textureUrl: string;
@@ -82,7 +92,8 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
     uid: 'inv_1',
     definitionId: 'pickaxe',
     x: 0,
-    y: 0
+    y: 0,
+    rarity: ItemRarity.Rare
   },
   {
     uid: 'inv_2',
@@ -95,25 +106,29 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
     uid: 'inv_3',
     definitionId: 'magic_wand',
     x: 3,
-    y: 0
+    y: 0,
+    rarity: ItemRarity.Unique
   },
   {
     uid: 'inv_4',
     definitionId: 'magic_wand',
     x: 5,
-    y: 0
+    y: 0,
+    rarity: ItemRarity.Common
   },
   {
     uid: 'inv_5',
     definitionId: 'magic_wand',
     x: 7,
-    y: 0
+    y: 0,
+    rarity: ItemRarity.Magic
   },
   {
     uid: 'inv_6',
     definitionId: 'magic_wand',
     x: 9,
-    y: 0
+    y: 0,
+    rarity: ItemRarity.Common
   },
   {
     uid: 'inv_7',

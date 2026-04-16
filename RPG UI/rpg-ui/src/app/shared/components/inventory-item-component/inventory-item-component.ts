@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
+import { TooltipService } from '../../../core/UI/Tooltip/tooltip.service';
 
 @Component({
   selector: 'app-inventory-item-component',
@@ -25,7 +26,7 @@ export class InventoryItemComponent {
   contextMenuVisible = false;
   contextMenuPosition = { x: 0, y: 0 };
 
-  constructor() {}
+  constructor(private tooltipService: TooltipService) {}
 
   onMouseDown(event: MouseEvent) {
     if (event.button !== 0) return;
@@ -43,12 +44,16 @@ export class InventoryItemComponent {
     this.contextMenuVisible = false;
   }
 
-  onMouseEnter() {
+  onMouseEnter(event: MouseEvent) {
     this.hover.emit(this.item);
+
+    this.tooltipService.show(this.item, event);
   }
 
   onMouseLeave() {
     this.hoverEnd.emit(this.item);
+
+    this.tooltipService.hide();
   }
 
   getTransform() {

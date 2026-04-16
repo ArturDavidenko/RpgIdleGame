@@ -1,1 +1,48 @@
-<p>item-tooltip-component works!</p>
+@if (state$ | async; as state) {
+
+  @if (state.visible && state.model) {
+
+    <div
+      class="tooltip"
+      [style.left.px]="state.x + 12"
+      [style.top.px]="state.y + 12"
+    >
+
+      <div class="tooltip-title">
+        {{ state.model.title }}
+      </div>
+
+
+      @if (state.model.description) {
+        <div class="tooltip-description">
+          {{ state.model.description }}
+        </div>
+      }
+
+      @switch (state.model.type) {
+
+        @case ('weapon') {
+          <div class="tooltip-section">
+            Weapon item
+          </div>
+        }
+
+        @case ('currency') {
+          <div class="tooltip-section">
+            Currency item
+          </div>
+        }
+
+      }
+
+      @if (state.model.rarity !== undefined) {
+        <div class="tooltip-rarity">
+          Rarity: {{ state.model.rarity }}
+        </div>
+      }
+
+    </div>
+
+  }
+
+}

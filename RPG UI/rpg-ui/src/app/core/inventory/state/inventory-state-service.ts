@@ -74,6 +74,8 @@ function mapToView(
     name: def.name,
     description: def.description,
     textureUrl: def.textureUrl,
+    type: def.type,
+    rarity: item.rarity,
 
     quantity: item.quantity,
     stackable: def.stackable

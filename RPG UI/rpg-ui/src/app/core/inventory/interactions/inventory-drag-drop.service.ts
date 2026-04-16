@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { InventoryItemView } from '../models/Inventory-item.model';
 import { GridCell } from '../../../shared/components/inventory-grid-component/inventory-grid-component';
 import { InventoryRulesService } from '../rules/inventory-rules.service';
+import { TooltipService } from '../../UI/Tooltip/tooltip.service';
 
 export interface InventoryDragContext {
   cols: number;
@@ -32,7 +33,7 @@ export class InventoryDragDropService {
   hoverCell: GridCell | null = null;
   hoverValid = false;
 
-  constructor(private rules: InventoryRulesService) {}
+  constructor(private rules: InventoryRulesService, private tooltipService: TooltipService) {}
 
   startDrag(
     item: InventoryItemView,
@@ -41,6 +42,7 @@ export class InventoryDragDropService {
     rect: DOMRect,
     cellSize: number
   ) {
+    this.tooltipService.setDragging(true);
     this.draggedItem = item;
 
     const gridX = mouseX - rect.left;
@@ -109,6 +111,8 @@ export class InventoryDragDropService {
     context: InventoryDragContext,
     itemsView: InventoryItemView[]
   ): DragDropResult {
+    this.tooltipService.setDragging(false);
+
     if (!this.draggedItem) {
       return { type: 'invalid' };
     }
