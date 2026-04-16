@@ -1,0 +1,32 @@
+<div class="overlay" *ngIf="visible" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <h3>Split Item</h3>
+
+    <div class="item-info">
+      <img [src]="item.textureUrl" />
+      <div>
+        <div class="name">{{ item.name }}</div>
+        <div class="qty">Available: {{ item.quantity }}</div>
+      </div>
+    </div>
+
+    <div class="selector">
+      <button (click)="decrement()">-</button>
+
+      <input
+        type="number"
+        [value]="amount"
+        readonly
+      />
+
+      <button (click)="increment()">+</button>
+    </div>
+
+    <div class="actions">
+      <button class="cancel" (click)="onClose()">Cancel</button>
+      <button class="confirm" (click)="onConfirm()">OK</button>
+    </div>
+
+  </div>
+</div>

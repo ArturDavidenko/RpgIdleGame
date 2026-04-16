@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: all;
+  z-index: 10000;
+}
+
+.modal {
+  width: 320px;
+  background: #1e1e1e;
+  color: white;
+
+  border-radius: 10px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.item-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .qty {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  button {
+    width: 32px;
+    height: 32px;
+    background: #333;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  input {
+    width: 60px;
+    text-align: center;
+    background: #2a2a2a;
+    border: none;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cancel {
+    background: #444;
+    color: white;
+  }
+
+  .confirm {
+    background: #3b82f6;
+    color: white;
+  }
+}

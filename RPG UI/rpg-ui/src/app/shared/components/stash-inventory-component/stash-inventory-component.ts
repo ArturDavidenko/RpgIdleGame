@@ -6,10 +6,11 @@ import { NgFor } from '@angular/common';
 import { InventoryItemComponent } from '../inventory-item-component/inventory-item-component';
 import { InventoryDragContext, InventoryDragDropService } from '../../../core/inventory/interactions/inventory-drag-drop.service';
 import { InventoryService } from '../../../core/inventory/domain/inventory.service';
+import { SplitModalComponent } from '../split-modal-component/split-modal.component';
 
 @Component({
   selector: 'app-stash-inventory-component',
-  imports: [InventoryGridComponent, NgFor, InventoryItemComponent],
+  imports: [InventoryGridComponent, NgFor, InventoryItemComponent, SplitModalComponent],
   templateUrl: './stash-inventory-component.html',
   styleUrl: './stash-inventory-component.scss',
 })
@@ -19,6 +20,10 @@ export class StashInventoryComponent implements OnInit {
   cols = 15;
   rows = 10;
   readonly cellSize = 32;
+
+  splitVisible = false;
+  selectedItem!: InventoryItemView;
+
 
   @ViewChild('gridRef', { static: true }) gridElement!: ElementRef;
 
@@ -100,5 +105,18 @@ export class StashInventoryComponent implements OnInit {
       cellY < hoverCell.y + draggedItem.height
     );
   }
+
+  openSplit(item: InventoryItemView) {
+    this.selectedItem = item;
+    this.splitVisible = true;
+  }
   
+  onSplitConfirm(amount: number) {
+    this.inventoryService.splitItem(this.selectedItem.uid, amount);
+    this.splitVisible = false;
+  }
+
+  onSplitClose() {
+    this.splitVisible = false;
+  }
 }

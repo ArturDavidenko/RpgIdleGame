@@ -23,6 +23,7 @@ export interface InventoryItem {
   y: number;
 
   quantity?: number;
+  inventoryId?: string;
 }
 
 export interface InventoryItemView {

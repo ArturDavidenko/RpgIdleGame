@@ -14,6 +14,8 @@ export class InventoryItemComponent {
   @Input() isDragging = false;
   @Input() dragX = 0;
   @Input() dragY = 0;
+  
+  @Output() split = new EventEmitter<InventoryItemView>();
 
   @Output() hover = new EventEmitter<InventoryItemView>();
   @Output() hoverEnd = new EventEmitter<InventoryItemView>();
@@ -59,5 +61,10 @@ export class InventoryItemComponent {
       : (this.item.y ?? 0) * 32;
 
     return `translate(${x}px, ${y}px)`;
+  }
+
+  onSplit(item: InventoryItemView) {
+    this.split.emit(item);
+    this.onContextMenuClose();
   }
 }

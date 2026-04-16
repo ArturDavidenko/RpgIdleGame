@@ -15,6 +15,7 @@ export class ContextMenuComponent {
   @Input() visible = false;
 
   @Output() close = new EventEmitter<void>();
+  @Output() split = new EventEmitter<InventoryItemView>();
 
   constructor(
     private inventoryState: InventoryStateService,
@@ -36,5 +37,9 @@ export class ContextMenuComponent {
   onDelete() {
     this.inventoryState.removeItem(this.item.uid);
     this.close.emit();
+  }
+
+  onSplit() {
+    this.split.emit(this.item);
   }
 }

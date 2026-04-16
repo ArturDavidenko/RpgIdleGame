@@ -16,7 +16,21 @@
     [dragX]="dragDrop.mouse.x - dragDrop.dragOffset.x"
     [dragY]="dragDrop.mouse.y - dragDrop.dragOffset.y"
     (mouseDown)="onItemMouseDown($event)"
+    (split)="openSplit($event)"
     ></app-inventory-item-component>
+
+    
+
 </div>
+
+<div class="ui-overlay">
+    <app-split-modal-component
+    [item]="selectedItem"
+    [visible]="splitVisible"
+    (close)="onSplitClose()"
+    (confirm)="onSplitConfirm($event)"
+    ></app-split-modal-component>
+</div>
+
 
 <button class="btn">TEST</button>

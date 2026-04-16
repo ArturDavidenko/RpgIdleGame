@@ -9,7 +9,7 @@
   
     @if (item?.stackable) {
       <li>Use</li>
-      <li>Split</li>
+      <li (click)="onSplit()">Split</li>
     }
 
     <li (click)="onDelete()">Sell</li>
