@@ -1,5 +1,6 @@
 import { NgFor, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
 
 export type GridCell = {
   x: number;
@@ -19,14 +20,19 @@ export class InventoryGridComponent {
   @Input() cellTexture: string = 'assets/InventoryImages/Cell.png';
 
   readonly cellSize = 32;
-
+  cells: GridCell[] = [];
+  
   @Input() hoverCell: GridCell | null = null;
   @Input() hoverValid: boolean = false;
-  @Input() draggedItem: any = null;
+  @Input() draggedItem: InventoryItemView | null = null;
 
   @Output() cellHover = new EventEmitter<GridCell>();
   @Output() cellClick = new EventEmitter<GridCell>();
   @Output() cellEnter = new EventEmitter<GridCell>();
+
+  ngOnChanges() {
+    this.generateCells();
+  }
 
   get gridStyles() {
     return {
@@ -38,7 +44,7 @@ export class InventoryGridComponent {
     };
   }
 
-  get cells(): GridCell[] {
+  private generateCells() {
     const result: GridCell[] = [];
 
     for (let y = 0; y < this.rows; y++) {
@@ -47,7 +53,7 @@ export class InventoryGridComponent {
       }
     }
 
-    return result;
+    this.cells = result;
   }
 
   onHover(cell: GridCell) {

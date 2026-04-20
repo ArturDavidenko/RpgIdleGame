@@ -10,7 +10,7 @@ import { TooltipService } from '../../../core/UI/Tooltip/tooltip.service';
   styleUrl: './inventory-item-component.scss',
 })
 export class InventoryItemComponent {
-  @Input() item!: InventoryItemView;
+  @Input({ required: true }) item!: InventoryItemView;
 
   @Input() isDragging = false;
   @Input() dragX = 0;
