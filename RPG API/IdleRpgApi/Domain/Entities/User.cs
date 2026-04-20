@@ -7,15 +7,18 @@
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        private User() { } // EF Core
+        private User() { }
 
         public User(string email, string userName, string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Email is required");
 
-            if (email.Length > 100)
-                throw new ArgumentException("Email too long");
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new ArgumentException("Username is required");
+
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new ArgumentException("Password hash is required");
 
             Email = email;
             PasswordHash = passwordHash;

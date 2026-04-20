@@ -30,6 +30,12 @@ namespace IdleRpgApi.Infrastructure.Persistence
 
                 entity.Property(u => u.PasswordHash)
                     .IsRequired();
+
+                entity.HasIndex(u => u.Email)
+                    .IsUnique();
+
+                entity.HasIndex(u => u.UserName)
+                    .IsUnique();
             });
         }
     }
