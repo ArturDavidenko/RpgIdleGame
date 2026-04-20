@@ -2,51 +2,20 @@ version: '3.9'
 
 services:
   postgres:
-    image: postgres:15
-    container_name: my_postgres
+    image: postgres:16
+    container_name: idle_rpg_postgres
+    restart: always
+
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: rpg_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: idle_rpg
+
     ports:
-      - "5432:5432"
+      - "5433:5432"
+
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: my_rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    ports:
-      - "5672:5672"      
-      - "15672:15672"     
-    volumes:
-      - rabbitmqdata:/var/lib/rabbitmq
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    container_name: my_elasticsearch
-    environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    ports:
-      - "9200:9200"
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.12.0
-    container_name: my_kibana
-    environment:
-      ELASTICSEARCH_HOSTS: "http://my_elasticsearch:9200"
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-
 volumes:
   pgdata:
-  rabbitmqdata:
-  esdata:
