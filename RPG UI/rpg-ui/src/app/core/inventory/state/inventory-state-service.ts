@@ -1,58 +1,76 @@
 import { Injectable } from '@angular/core';
-import { InventoryItem, InventoryItemView, ITEM_DEFINITIONS, ItemDefinition, MOCK_INVENTORY_ITEMS } from '../models/Inventory-item.model';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Inventory, InventoryItem, InventoryItemView, ITEM_DEFINITIONS, ItemDefinition, MOCK_INVENTORY, MOCK_INVENTORY_ITEMS } from '../models/Inventory-item.model';
+import { BehaviorSubject } from 'rxjs';
 import { combineLatest, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryStateService {
-  private itemsSubject = new BehaviorSubject<InventoryItem[]>(MOCK_INVENTORY_ITEMS);
+  private inventorySubject = new BehaviorSubject<Inventory>(MOCK_INVENTORY);
   private definitionsSubject = new BehaviorSubject<ItemDefinition[]>(ITEM_DEFINITIONS);
   
-
-  items$ = this.itemsSubject.asObservable();
+  inventory$ = this.inventorySubject.asObservable();
   definitions$ = this.definitionsSubject.asObservable();
 
-  itemsView$ = combineLatest([this.items$, this.definitions$]).pipe(
-    map(([items, definitions]) =>
-      items.map(item => mapToView(item, definitions))
+  itemsView$ = combineLatest([this.inventory$, this.definitions$]).pipe(
+    map(([inventory, definitions]) =>
+      inventory.items.map(item => mapToView(item, definitions))
     )
   );
 
   getItems(): InventoryItem[] {
-    return this.itemsSubject.getValue();
+    return this.inventorySubject.getValue().items;
+  }
+
+  getInventory(): Inventory {
+    return this.inventorySubject.getValue();
   }
 
   getDefinitions(): ItemDefinition[] {
     return this.definitionsSubject.getValue();
   }
 
-  setItems(items: InventoryItem[]) {
-    this.itemsSubject.next(items);
+  setInventory(inventory: Inventory) {
+    this.inventorySubject.next({ ...inventory });
   }
 
   addItem(item: InventoryItem) {
-    const current = this.getItems();
-    this.itemsSubject.next([...current, item]);
+    const inventory = this.getInventory();
+
+    this.setInventory({
+      ...inventory,
+      items: [...inventory.items, item]
+    });
   }
 
   removeItem(itemId: string) {
-    const current = this.getItems();
-    this.itemsSubject.next(current.filter(i => i.uid !== itemId));
+    const inventory = this.getInventory();
+
+    this.setInventory({
+      ...inventory,
+      items: inventory.items.filter(i => i.uid !== itemId)
+    });
   }
 
   updateItem(updatedItem: InventoryItem) {
-    const current = this.getItems();
-    const index = current.findIndex(i => i.uid === updatedItem.uid);
-    if (index !== -1) {
-      current[index] = updatedItem;
-      this.itemsSubject.next([...current]);
-    }
+    const inventory = this.getInventory();
+
+    this.setInventory({
+      ...inventory,
+      items: inventory.items.map(i =>
+        i.uid === updatedItem.uid ? updatedItem : i
+      )
+    });
   }
 
   updateItems(updatedItems: InventoryItem[]) {
-    this.itemsSubject.next([...updatedItems]);
+    const inventory = this.getInventory();
+
+    this.setInventory({
+      ...inventory,
+      items: [...updatedItems]
+    });
   }
 }
 

@@ -5,6 +5,11 @@ export enum ItemRarity {
   Unique = 'Unique'
 }
 
+export interface Inventory {
+  id: string;
+  items: InventoryItem[];
+}
+
 export interface ItemDefinition {
   id: string; // "pickaxe", "gold", "wand"
 
@@ -31,7 +36,6 @@ export interface InventoryItem {
 
   quantity?: number;
   rarity?: ItemRarity;
-  inventoryId?: string;
 }
 
 export interface InventoryItemView {
@@ -159,3 +163,8 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
     quantity: 1
   }
 ];
+
+export const MOCK_INVENTORY: Inventory = {
+  id: 'stash',
+  items: MOCK_INVENTORY_ITEMS
+};
