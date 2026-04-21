@@ -4,14 +4,32 @@
   </div>
 
   <nav class="header__nav">
+
     <a routerLink="/">Main Menu</a>
-    <a routerLink="/StashInventory">Stash</a>
-    <a routerLink="/crafting">Crafting</a>
-    <a routerLink="/skills">Skills</a>
-    <a routerLink="/testPage">Test Page</a>
+
+    <ng-container *ngIf="isAuth$ | async">
+
+      <a routerLink="/StashInventory">Stash</a>
+      <a routerLink="/crafting">Crafting</a>
+      <a routerLink="/skills">Skills</a>
+      <a routerLink="/testPage">Test Page</a>
+
+    </ng-container>
+
+    <ng-container *ngIf="!(isAuth$ | async)">
+
+      <a routerLink="/register">Register</a>
+      <a routerLink="/login">Login</a>
+
+    </ng-container>
+
   </nav>
 
   <div class="header__actions">
-    <button class="btn">Profile</button>
+
+    <button *ngIf="isAuth$ | async" (click)="logout()" class="btn">
+      Logout
+    </button>
+
   </div>
 </header>

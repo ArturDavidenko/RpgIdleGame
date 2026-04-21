@@ -1,0 +1,34 @@
+<div class="register-container">
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+
+    <h2>Register</h2>
+
+    <input
+      type="email"
+      formControlName="email"
+      placeholder="Email"
+    />
+
+    <input
+      type="text"
+      formControlName="userName"
+      placeholder="Username"
+    />
+
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Password"
+    />
+
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Loading...' : 'Register' }}
+    </button>
+
+    <p *ngIf="isError" class="error">Something went wrong</p>
+    <p *ngIf="isSuccess" class="success">User created!</p>
+
+  </form>
+
+</div>

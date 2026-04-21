@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { TestComponent } from './shared/components/test-component/test-component';
 import { MainMenuPage } from './features/pages/main-menu-page/main-menu-page';
 import { StashInventoryComponent } from './shared/components/stash-inventory-component/stash-inventory-component';
+import { LoginPage } from './features/pages/login-page/login-page';
+import { RegisterPage } from './features/pages/register-page/register-page';
 
 export const routes: Routes = [
   {
@@ -16,6 +18,14 @@ export const routes: Routes = [
   {
     path: 'StashInventory',
     component: StashInventoryComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPage,
+  },
+  {
+    path: 'register',
+    component: RegisterPage,
   },
   {
     path: '**',

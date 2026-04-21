@@ -4,7 +4,7 @@ namespace IdleRpgApi.Application.Auth
 {
     public interface IAuthService
     {
-        Task<string> LoginAsync(LoginRequest request);
+        Task<AuthResponse> LoginAsync(LoginRequest request);
         Task RegisterAsync(RegisterRequest request);
     }
 }

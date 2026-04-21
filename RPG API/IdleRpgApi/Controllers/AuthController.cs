@@ -22,7 +22,7 @@ namespace IdleRpgApi.Controllers
                 return BadRequest(ModelState);
 
             await _authService.RegisterAsync(request);
-            return Ok("User created !");
+            return Ok(new { message = "User created" });
         }
 
 
@@ -32,9 +32,9 @@ namespace IdleRpgApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var token = await _authService.LoginAsync(request);
+            var result = await _authService.LoginAsync(request);
 
-            return Ok(new { token });
+            return Ok(result);
         }
 
 

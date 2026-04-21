@@ -74,6 +74,17 @@ namespace IdleRpgApi
                 };
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
+
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
@@ -90,6 +101,7 @@ namespace IdleRpgApi
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowAngularApp");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

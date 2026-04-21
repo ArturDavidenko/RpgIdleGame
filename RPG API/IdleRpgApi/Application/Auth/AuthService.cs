@@ -17,7 +17,7 @@ namespace IdleRpgApi.Application.Auth
             _jwtService = jwtService;
         }
 
-        public async Task<string> LoginAsync(LoginRequest request)
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
 
@@ -32,7 +32,18 @@ namespace IdleRpgApi.Application.Auth
             if (!isValid)
                 throw new Exception("Invalid credentials");
 
-            return _jwtService.GenerateToken(user);
+            var token = _jwtService.GenerateToken(user);
+
+            return new AuthResponse
+            {
+                Token = token,
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName
+                }
+            };
         }
 
         public async Task RegisterAsync(RegisterRequest request)
