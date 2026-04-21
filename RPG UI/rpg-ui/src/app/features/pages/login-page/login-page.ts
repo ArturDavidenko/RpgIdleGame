@@ -54,8 +54,6 @@ export class LoginPage {
     this.authService.login(request)
       .subscribe({
         next: (res: AuthResponse) => {
-          localStorage.setItem('token', res.token);
-
           this.isSubmitting = false;
           this.authState.login(res.token);
           this.router.navigate(['/']);
