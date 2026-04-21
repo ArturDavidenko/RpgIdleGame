@@ -1,38 +1,39 @@
 <div class="login-container">
-
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" novalidate>
     <h2>Login</h2>
 
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Email"
-    />
+    <div class="form-field">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+        [class.invalid]="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+      />
+      <div class="error-message" *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+        <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+      </div>
+    </div>
 
-    <input
-      type="password"
-      formControlName="password"
-      placeholder="Password"
-    />
+    <div class="form-field">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        [class.invalid]="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+      />
+      <div class="error-message" *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+        <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long</span>
+      </div>
+    </div>
 
-    <button type="submit" [disabled]="isSubmitting">
+    <button type="submit" [disabled]="isSubmitting" class="submit-btn">
       {{ isSubmitting ? 'Loading...' : 'Login' }}
     </button>
 
-    <p *ngIf="isError" class="error">
-      Invalid credentials
+    <p *ngIf="isError" class="global-error">
+      Invalid email or password
     </p>
-
   </form>
-
-</div>
-
-
-<div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-  Invalid email
-</div>
-
-<div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-  Invalid password
 </div>

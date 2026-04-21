@@ -46,11 +46,16 @@ export class RegisterPage {
           '',
           [
             Validators.required,
-            Validators.minLength(6)
+            Validators.minLength(6),
+            Validators.maxLength(50)
           ]
         ]
       });
     }
+
+    get email() { return this.registerForm.get('email'); }
+    get userName() { return this.registerForm.get('userName'); }
+    get password() { return this.registerForm.get('password'); }
 
     onSubmit(): void {
       if (this.isSubmitting) return;
@@ -69,7 +74,7 @@ export class RegisterPage {
         next: () => {
           this.isSuccess = true;
           this.isSubmitting = false;
-          this.router.navigate(['/login']);
+          //this.router.navigate(['/login']);
         },
         error: () => {
           this.isError = true;

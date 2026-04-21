@@ -1,34 +1,53 @@
 <div class="register-container">
-
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" novalidate>
     <h2>Register</h2>
 
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Email"
-    />
+    <div class="form-field">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+        [class.invalid]="email?.invalid && (email?.touched || email?.dirty)"
+      />
+      <div class="error-message" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+        <span *ngIf="email?.errors?.['required']">Email is required</span>
+        <span *ngIf="email?.errors?.['email']">Please enter a valid email address</span>
+        <span *ngIf="email?.errors?.['maxlength']">Email cannot exceed 100 characters</span>
+      </div>
+    </div>
 
-    <input
-      type="text"
-      formControlName="userName"
-      placeholder="Username"
-    />
+    <div class="form-field">
+      <input
+        type="text"
+        formControlName="userName"
+        placeholder="Username"
+        [class.invalid]="userName?.invalid && (userName?.touched || userName?.dirty)"
+      />
+      <div class="error-message" *ngIf="userName?.invalid && (userName?.touched || userName?.dirty)">
+        <span *ngIf="userName?.errors?.['required']">Username is required</span>
+        <span *ngIf="userName?.errors?.['maxlength']">Username cannot exceed 50 characters</span>
+      </div>
+    </div>
 
-    <input
-      type="password"
-      formControlName="password"
-      placeholder="Password"
-    />
+    <div class="form-field">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        [class.invalid]="password?.invalid && (password?.touched || password?.dirty)"
+      />
+      <div class="error-message" *ngIf="password?.invalid && (password?.touched || password?.dirty)">
+        <span *ngIf="password?.errors?.['required']">Password is required</span>
+        <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long</span>
+        <span *ngIf="password?.errors?.['maxlength']">Password cannot exceed 50 characters</span>
+      </div>
+    </div>
 
-    <button type="submit" [disabled]="isSubmitting">
-      {{ isSubmitting ? 'Loading...' : 'Register' }}
+    <button type="submit" [disabled]="isSubmitting" class="submit-btn">
+      {{ isSubmitting ? 'Creating account...' : 'Register' }}
     </button>
 
-    <p *ngIf="isError" class="error">Something went wrong</p>
-    <p *ngIf="isSuccess" class="success">User created!</p>
-
+    <p *ngIf="isError" class="global-error">Registration failed. Please try again.</p>
+    <p *ngIf="isSuccess" class="global-success">Account created! Redirecting to login…</p>
   </form>
-
 </div>

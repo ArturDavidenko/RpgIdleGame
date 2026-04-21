@@ -1,40 +1,98 @@
+@use '../../../../styles/variables' as *;
+
 .login-container {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: $color-bg-main;
+  font-family: $font-primary;
 }
 
 .login-form {
-  width: 320px;
-  padding: 24px;
-  background: #1e293b;
-  border-radius: 12px;
+  width: 360px;
+  padding: 32px $padding * 2;
+  background: $color-bg-panel;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  color: white;
+  gap: $gap;
+  color: $color-text-main;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid $color-border;
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-weight: 400;
+    text-align: center;
+    color: $color-accent;
+    letter-spacing: 1px;
+  }
 }
 
-.login-form input {
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  background: #334155;
-  color: white;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.login-form button {
-  padding: 10px;
-  border-radius: 6px;
+input {
+  padding: $padding;
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  background: lighten($color-bg-panel, 5%);
+  color: $color-text-main;
+  font-size: $font-size-base;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder {
+    color: lighten($color-text-main, 10%);
+    opacity: 0.7;
+  }
+
+  &:focus {
+    border-color: $color-accent;
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.2);
+  }
+
+  &.invalid {
+    border-color: $error-color;
+  }
+}
+
+.error-message {
+  color: $error-color;
+  font-size: 13px;
+  min-height: 18px;
+  padding-left: 4px;
+}
+
+.submit-btn {
+  padding: $padding;
+  border-radius: 8px;
   border: none;
-  background: #3b82f6;
-  color: white;
+  background: $color-accent;
+  color: $color-bg-main;
+  font-weight: 600;
+  font-size: $font-size-base;
   cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  margin-top: 8px;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-hover;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
-.error {
-  color: #ef4444;
-  font-size: 12px;
+.global-error {
+  color: $error-color;
+  font-size: 14px;
   text-align: center;
+  margin: 0;
 }
