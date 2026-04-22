@@ -17,5 +17,20 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  backend:
+    build:
+      context: ./RPG API/IdleRpgApi
+      dockerfile: Dockerfile
+    container_name: idle_rpg_backend
+    depends_on:
+      - postgres
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=postgres;Port=5432;Database=idle_rpg;Username=admin;Password=admin123
+
+    ports:
+      - "5000:8080"
+
 volumes:
   pgdata:
