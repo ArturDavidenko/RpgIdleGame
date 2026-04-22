@@ -11,6 +11,8 @@ namespace IdleRpgApi.Infrastructure.Persistence
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<InventoryItem> InventoryItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +38,41 @@ namespace IdleRpgApi.Infrastructure.Persistence
 
                 entity.HasIndex(u => u.UserName)
                     .IsUnique();
+            });
+
+            modelBuilder.Entity<Inventory>(entity =>
+            {
+                entity.HasKey(i => i.Id);
+
+                entity.Property(i => i.UserId)
+                    .IsRequired();
+
+                entity.Property(i => i.CreatedAt)
+                    .IsRequired();
+
+                entity.HasOne(i => i.User)
+                    .WithOne(u => u.Inventory)
+                    .HasForeignKey<Inventory>(i => i.UserId);
+            });
+
+            modelBuilder.Entity<InventoryItem>(entity =>
+            {
+                entity.HasKey(ii => ii.Id);
+
+                entity.Property(ii => ii.DefinitionId)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(ii => ii.X).IsRequired();
+                entity.Property(ii => ii.Y).IsRequired();
+
+                entity.Property(ii => ii.Quantity);
+                entity.Property(ii => ii.Rarity)
+                    .HasMaxLength(50);
+
+                entity.HasOne(ii => ii.Inventory)
+                    .WithMany(i => i.Items)
+                    .HasForeignKey(ii => ii.InventoryId);
             });
         }
     }

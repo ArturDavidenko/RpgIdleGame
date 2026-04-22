@@ -1,0 +1,35 @@
+[
+  {
+    "id": "pickaxe",
+    "name": "Pickaxe",
+    "description": "IDK just a pickaxe",
+    "type": "weapon",
+    "width": 2,
+    "height": 3,
+    "textureUrl": "assets/InventoryImages/pickaxe.png",
+    "stackable": false,
+    "maxStack": null
+  },
+  {
+    "id": "magic_wand",
+    "name": "Magic Wand",
+    "description": "A basic magic wand",
+    "type": "weapon",
+    "width": 2,
+    "height": 5,
+    "textureUrl": "assets/InventoryImages/magic-wand.png",
+    "stackable": false,
+    "maxStack": null
+  },
+  {
+    "id": "scream_orb",
+    "name": "Scream orb",
+    "description": "Unpredictable chance item stats",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/scream-orb.png",
+    "stackable": true,
+    "maxStack": 20
+  }
+]
