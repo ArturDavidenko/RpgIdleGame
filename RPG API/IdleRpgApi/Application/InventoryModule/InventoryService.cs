@@ -1,5 +1,7 @@
-﻿using IdleRpgApi.Application.InventoryModule.DTOs;
+﻿using IdleRpgApi.Application.GameData;
+using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
+using IdleRpgApi.Domain.Services;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 
 namespace IdleRpgApi.Application.InventoryModule
@@ -7,9 +9,66 @@ namespace IdleRpgApi.Application.InventoryModule
     public class InventoryService : IInventoryService
     {
         private readonly IInventoryRepository _inventoryRepository;
-        public InventoryService(IInventoryRepository inventoryRepository) 
+        private readonly InventoryPlacementService _placementService;
+        private readonly ItemDefinitionRepository _itemDefinitionRepository;
+        public InventoryService(IInventoryRepository inventoryRepository, InventoryPlacementService placementService, ItemDefinitionRepository itemDefinitionRepository) 
         { 
             _inventoryRepository = inventoryRepository; 
+            _placementService = placementService;   
+            _itemDefinitionRepository = itemDefinitionRepository;
+        }
+
+        public async Task<InventoryItemDto> AddRandomItemAsync(Guid userId)
+        {
+            var inventory = await _inventoryRepository.GetByUserIdAsync(userId);
+
+            if (inventory == null)
+            {
+                inventory = new Inventory(userId);
+                await _inventoryRepository.SaveAsync(inventory);
+            }
+
+            var definitions = _itemDefinitionRepository.GetAll().ToList();
+
+            var randomDef = definitions[Random.Shared.Next(definitions.Count)];
+
+            var placedItems = inventory.Items
+                .Select(i =>
+                {
+                    var def = _itemDefinitionRepository.Get(i.DefinitionId);
+
+                    return new PlacedItem
+                    {
+                        X = i.X,
+                        Y = i.Y,
+                        Width = def.Width,
+                        Height = def.Height
+                    };
+                })
+                .ToList();
+
+            var position = _placementService.FindFreeSpot(
+                placedItems,
+                randomDef
+            );
+
+            if (position == null)
+                throw new Exception("Inventory is full");
+
+            var item = inventory.AddItem(
+                randomDef.Id,
+                position.Value.x,
+                position.Value.y
+            );
+
+            await _inventoryRepository.SaveAsync(inventory);
+
+            return new InventoryItemDto
+            {
+                DefinitionId = item.DefinitionId,
+                X = item.X,
+                Y = item.Y
+            };
         }
 
         public async Task<InventoryDto> GetByUserIdAsync(Guid userId)

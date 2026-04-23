@@ -24,7 +24,7 @@
             _items.Clear();
         }
 
-        public void AddItem(string definitionId, int x, int y, int? quantity = null, string? rarity = null)
+        public InventoryItem AddItem(string definitionId, int x, int y, int? quantity = null, string? rarity = null)
         {
             if (_items.Any(i => i.X == x && i.Y == y))
                 throw new Exception("Slot already occupied");
@@ -32,6 +32,8 @@
             var item = new InventoryItem(Id, definitionId, x, y);
 
             _items.Add(item);
+
+            return item;
         }
     }
 }

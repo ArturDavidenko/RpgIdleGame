@@ -1,6 +1,9 @@
 
 using IdleRpgApi.Application.Auth;
+using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule;
+using IdleRpgApi.Domain.Services;
+using IdleRpgApi.Infrastructure.GameData;
 using IdleRpgApi.Infrastructure.Persistence;
 using IdleRpgApi.Infrastructure.Repositories;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
@@ -8,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json;
 
 namespace IdleRpgApi
 {
@@ -86,12 +90,22 @@ namespace IdleRpgApi
                 });
             });
 
+            builder.Services.AddControllers()
+            .AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
+
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
 
             builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+            builder.Services.AddSingleton<IGameDataProvider, EmbeddedGameDataProvider>();
+
+            builder.Services.AddSingleton<InventoryPlacementService>();
+            builder.Services.AddSingleton<ItemDefinitionRepository>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));

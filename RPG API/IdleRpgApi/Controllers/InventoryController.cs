@@ -37,5 +37,15 @@ namespace IdleRpgApi.Controllers
 
             return Ok();
         }
+
+        [HttpPost("random-item")]
+        public async Task<IActionResult> GenerateRandomItem()
+        {
+           var userId = User.GetUserId();
+
+           var result = await _inventoryService.AddRandomItemAsync(userId);
+
+           return Ok(result);
+        }
     }
 }
