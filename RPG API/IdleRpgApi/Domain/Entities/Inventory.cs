@@ -18,5 +18,20 @@
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
         }
+
+        public void ClearItems()
+        {
+            _items.Clear();
+        }
+
+        public void AddItem(string definitionId, int x, int y, int? quantity = null, string? rarity = null)
+        {
+            if (_items.Any(i => i.X == x && i.Y == y))
+                throw new Exception("Slot already occupied");
+
+            var item = new InventoryItem(Id, definitionId, x, y);
+
+            _items.Add(item);
+        }
     }
 }

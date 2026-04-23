@@ -1,5 +1,6 @@
 
 using IdleRpgApi.Application.Auth;
+using IdleRpgApi.Application.InventoryModule;
 using IdleRpgApi.Infrastructure.Persistence;
 using IdleRpgApi.Infrastructure.Repositories;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
@@ -88,6 +89,9 @@ namespace IdleRpgApi
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+
+            builder.Services.AddScoped<IInventoryService, InventoryService>();
+            builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
