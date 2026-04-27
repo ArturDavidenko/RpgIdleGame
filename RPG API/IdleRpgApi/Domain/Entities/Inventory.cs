@@ -1,10 +1,14 @@
-﻿namespace IdleRpgApi.Domain.Entities
+﻿using IdleRpgApi.Domain.Enums;
+
+namespace IdleRpgApi.Domain.Entities
 {
     public class Inventory
     {
         public Guid Id { get; private set; }
         public Guid UserId { get; private set; }
         public User User { get; private set; } = null!;
+
+        public InventoryType Type { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
 
@@ -17,6 +21,7 @@
         {
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
+            Type = InventoryType.Stash;
         }
 
         public void ClearItems()
