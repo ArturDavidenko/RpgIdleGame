@@ -29,7 +29,7 @@
             if (_items.Any(i => i.X == x && i.Y == y))
                 throw new Exception("Slot already occupied");
 
-            var item = new InventoryItem(Id, definitionId, x, y);
+            var item = new InventoryItem(Id, definitionId, x, y, quantity, rarity);
 
             _items.Add(item);
 

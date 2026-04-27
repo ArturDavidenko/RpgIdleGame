@@ -181,18 +181,23 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
       definitionId: 'scream_orb',
       x: 14,
       y: 1,
+      quantity: 5,
+      rarity: ItemRarity.Common
     },
     {
       uid: 'inv_016',
       definitionId: 'scream_orb',
       x: 14,
       y: 2,
+      quantity: 1
     },
     {
       uid: 'inv_017',
       definitionId: 'magic_wand',
       x: 8,
       y: 5,
+      rarity: ItemRarity.Rare,
+      quantity: 1
     }
 ];
 

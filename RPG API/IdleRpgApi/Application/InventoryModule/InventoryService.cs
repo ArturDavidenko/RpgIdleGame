@@ -65,6 +65,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             return new InventoryItemDto
             {
+                Id = item.Id,
                 DefinitionId = item.DefinitionId,
                 X = item.X,
                 Y = item.Y
@@ -114,6 +115,7 @@ namespace IdleRpgApi.Application.InventoryModule
             {
                 Items = inventory.Items.Select(i => new InventoryItemDto
                 {
+                    Id = i.Id,
                     DefinitionId = i.DefinitionId,
                     X = i.X,
                     Y = i.Y,

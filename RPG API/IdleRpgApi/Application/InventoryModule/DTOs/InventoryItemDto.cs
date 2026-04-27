@@ -2,6 +2,7 @@
 {
     public class InventoryItemDto
     {
+        public Guid Id { get; set; }
         public string DefinitionId { get; set; } = null!;
         public int X { get; set; }
         public int Y { get; set; }

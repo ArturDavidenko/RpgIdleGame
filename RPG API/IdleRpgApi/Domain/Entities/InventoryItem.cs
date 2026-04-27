@@ -12,17 +12,35 @@
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public int? Quantity { get; private set; }
-        public string? Rarity { get; private set; }
+        public int Quantity { get; private set; }
+        public string Rarity { get; private set; } = null!;
 
         private InventoryItem() { }
 
-        public InventoryItem(Guid inventoryId, string definitionId, int x, int y)
+        public InventoryItem(Guid inventoryId, string definitionId, int x, int y, int? quantity = null,
+        string? rarity = null)
         {
             InventoryId = inventoryId;
             DefinitionId = definitionId;
             X = x;
             Y = y;
+
+            Quantity = 1;
+            Rarity = "Common";
+
+            Quantity = quantity ?? 1;
+            Rarity = rarity ?? "Common";
+
+            Validate();
+        }
+
+        private void Validate()
+        {
+            if (Quantity <= 0)
+                throw new Exception("Quantity must be >= 1");
+
+            if (string.IsNullOrWhiteSpace(Rarity))
+                throw new Exception("Rarity is required");
         }
     }
 }
