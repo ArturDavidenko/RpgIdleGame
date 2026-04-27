@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
+import { InventoryFacade } from "../inventory/facade/inventory-facade.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,9 @@ export class AuthStateService {
 
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private inventoryFacade: InventoryFacade) {
+    this.bootstrap();
+  }
 
   isAuthenticated(): boolean {
     return this.isAuthenticatedSubject.value;
@@ -25,11 +28,22 @@ export class AuthStateService {
   login(token: string) {
     localStorage.setItem('token', token);
     this.isAuthenticatedSubject.next(true);
+
+    this.inventoryFacade.init();
   }
 
   logout() {
     localStorage.removeItem('token');
     this.isAuthenticatedSubject.next(false);
     this.router.navigate(['/login']);
+  }
+
+  private bootstrap() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.isAuthenticatedSubject.next(true);
+      this.inventoryFacade.init();
+    }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using IdleRpgApi.Domain.Entities;
+using IdleRpgApi.Domain.Enums;
 using IdleRpgApi.Infrastructure.Persistence;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,11 @@ namespace IdleRpgApi.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Inventory?> GetByUserIdAsync(Guid userId)
+        public async Task<Inventory?> GetByUserIdAndTypeAsync(Guid userId, InventoryType type)
         {
             return await _context.Inventories
-            .Include(i => i.Items)
-            .FirstOrDefaultAsync(i => i.UserId == userId);
+                .Include(i => i.Items)
+                .FirstOrDefaultAsync(i => i.UserId == userId && i.Type == type);
         }
 
         public async Task SaveAsync(Inventory inventory)

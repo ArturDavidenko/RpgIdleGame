@@ -8,6 +8,7 @@ import { InventoryDragContext, InventoryDragDropService } from '../../../core/in
 import { InventoryService } from '../../../core/inventory/domain/inventory.service';
 import { SplitModalComponent } from '../split-modal-component/split-modal.component';
 import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
+import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
 
 @Component({
   selector: 'app-stash-inventory-component',
@@ -31,7 +32,8 @@ export class StashInventoryComponent implements OnInit {
   constructor(
     private inventoryState: InventoryStateService,
     public dragDrop: InventoryDragDropService,
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
+    private inventoryFacade: InventoryFacade
   ) {}
 
   ngOnInit() {
@@ -46,6 +48,10 @@ export class StashInventoryComponent implements OnInit {
       rows: this.rows,
       cellSize: this.cellSize,
     };
+  }
+
+  onSave() {
+    this.inventoryFacade.saveInventory();
   }
 
   onItemMouseDown(data: { event: MouseEvent; item: InventoryItemView }) {

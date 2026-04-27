@@ -4,7 +4,7 @@ namespace IdleRpgApi.Application.InventoryModule;
 
 public interface IInventoryService
 {
-    Task<InventoryDto> GetByUserIdAsync(Guid userId);
+    Task<InventoryDto> GetByUserIdAndTypeAsync(Guid userId);
 
     Task SaveAsync(Guid userId, InventoryDto dto);
 

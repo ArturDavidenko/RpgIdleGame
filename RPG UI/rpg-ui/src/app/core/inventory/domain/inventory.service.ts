@@ -40,7 +40,7 @@ export class InventoryService {
     const items = this.InventoryStateService.getItems();
 
     const updated = items.map(i => {
-      if (i.uid === itemId) {
+      if (i.id === itemId) {
         return { ...i, x, y };
       }
       return i;
@@ -52,7 +52,7 @@ export class InventoryService {
   splitItem(itemId: string, amount: number) {
     const items = this.InventoryStateService.getItems();
 
-    const target = items.find(i => i.uid === itemId);
+    const target = items.find(i => i.id === itemId);
     if (!target || !target.quantity || target.quantity <= amount) {
       console.warn('Invalid split');
       return;
@@ -61,7 +61,7 @@ export class InventoryService {
     const remaining = target.quantity - amount;
 
     const newItem: InventoryItem = {
-      uid: crypto.randomUUID(),
+      id: crypto.randomUUID(),
       definitionId: target.definitionId,
       x: 0,
       y: 0,
@@ -69,7 +69,7 @@ export class InventoryService {
     };
 
     const updatedItems = items.map(i => {
-      if (i.uid === itemId) {
+      if (i.id === itemId) {
         return {
           ...i,
           quantity: remaining

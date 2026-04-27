@@ -1,6 +1,7 @@
 ﻿using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
+using IdleRpgApi.Domain.Enums;
 using IdleRpgApi.Domain.Services;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 
@@ -20,7 +21,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
         public async Task<InventoryItemDto> AddRandomItemAsync(Guid userId)
         {
-            var inventory = await _inventoryRepository.GetByUserIdAsync(userId);
+            var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
             {
@@ -72,9 +73,9 @@ namespace IdleRpgApi.Application.InventoryModule
             };
         }
 
-        public async Task<InventoryDto> GetByUserIdAsync(Guid userId)
+        public async Task<InventoryDto> GetByUserIdAndTypeAsync(Guid userId)
         {
-            var inventory = await _inventoryRepository.GetByUserIdAsync(userId);
+            var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
             {
@@ -88,7 +89,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
         public async Task SaveAsync(Guid userId, InventoryDto dto)
         {
-            var inventory = await _inventoryRepository.GetByUserIdAsync(userId);
+            var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
                 inventory = new Inventory(userId);
@@ -113,6 +114,8 @@ namespace IdleRpgApi.Application.InventoryModule
         {
             return new InventoryDto
             {
+                Id = inventory.Id,
+                Type = inventory.Type.ToString(),
                 Items = inventory.Items.Select(i => new InventoryItemDto
                 {
                     Id = i.Id,

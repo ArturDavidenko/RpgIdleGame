@@ -7,8 +7,12 @@ import { combineLatest, map } from 'rxjs';
   providedIn: 'root',
 })
 export class InventoryStateService {
-  private inventorySubject = new BehaviorSubject<Inventory>(MOCK_INVENTORY);
-  private definitionsSubject = new BehaviorSubject<ItemDefinition[]>(ITEM_DEFINITIONS);
+  private inventorySubject = new BehaviorSubject<Inventory>({
+    id: '',
+    items: [],
+    type: ''
+  });
+  private definitionsSubject = new BehaviorSubject<ItemDefinition[]>([]);
   
   inventory$ = this.inventorySubject.asObservable();
   definitions$ = this.definitionsSubject.asObservable();
@@ -35,6 +39,10 @@ export class InventoryStateService {
     this.inventorySubject.next({ ...inventory });
   }
 
+  setDefinitions(definitions: ItemDefinition[]) {
+    this.definitionsSubject.next([...definitions]);
+  }
+
   addItem(item: InventoryItem) {
     const inventory = this.getInventory();
 
@@ -49,7 +57,7 @@ export class InventoryStateService {
 
     this.setInventory({
       ...inventory,
-      items: inventory.items.filter(i => i.uid !== itemId)
+      items: inventory.items.filter(i => i.id !== itemId)
     });
   }
 
@@ -59,7 +67,7 @@ export class InventoryStateService {
     this.setInventory({
       ...inventory,
       items: inventory.items.map(i =>
-        i.uid === updatedItem.uid ? updatedItem : i
+        i.id === updatedItem.id ? updatedItem : i
       )
     });
   }
@@ -82,7 +90,7 @@ function mapToView(
   const def = definitions.find(d => d.id === item.definitionId)!;
 
   return {
-    uid: item.uid,
+    uid: item.id,
     x: item.x,
     y: item.y,
 

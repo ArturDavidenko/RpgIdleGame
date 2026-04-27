@@ -19,19 +19,13 @@ namespace IdleRpgApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<InventoryResponse>> Get()
+        public async Task<ActionResult<InventoryDto>> Get()
         {
             var userId = User.GetUserId();
 
-            var inventory = await _inventoryService.GetByUserIdAsync(userId);
+            var inventory = await _inventoryService.GetByUserIdAndTypeAsync(userId);
 
-            var response = new InventoryResponse
-            {
-                Id = "stash",
-                Items = inventory.Items,
-            };
-
-            return Ok(response);
+            return Ok(inventory);
         }
 
         [HttpPost]

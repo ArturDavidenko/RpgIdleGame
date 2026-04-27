@@ -12,8 +12,8 @@ export class MergeHandler {
     targetId: string
   ): InventoryItem[] {
 
-    const source = items.find(i => i.uid === sourceId);
-    const target = items.find(i => i.uid === targetId);
+    const source = items.find(i => i.id === sourceId);
+    const target = items.find(i => i.id === targetId);
 
     if (!source || !target) return items;
 
@@ -33,17 +33,17 @@ export class MergeHandler {
 
     return items
       .map(i => {
-        if (i.uid === target.uid) {
+        if (i.id === target.id) {
           return { ...i, quantity: targetQty + transfer };
         }
 
-        if (i.uid === source.uid) {
+        if (i.id === source.id) {
           const newQty = sourceQty - transfer;
           return { ...i, quantity: newQty };
         }
 
         return i;
       })
-      .filter(i => i.uid !== source.uid || (i.quantity ?? 0) > 0);
+      .filter(i => i.id !== source.id || (i.quantity ?? 0) > 0);
   }
 }
