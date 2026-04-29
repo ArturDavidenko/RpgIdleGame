@@ -25,7 +25,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             if (inventory == null)
             {
-                inventory = new Inventory(userId);
+                inventory = new Inventory(userId, InventoryType.Stash);
                 await _inventoryRepository.SaveAsync(inventory);
             }
 
@@ -73,13 +73,13 @@ namespace IdleRpgApi.Application.InventoryModule
             };
         }
 
-        public async Task<InventoryDto> GetByUserIdAndTypeAsync(Guid userId)
+        public async Task<InventoryDto> GetStashInventoryAsync(Guid userId)
         {
             var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
             {
-                inventory = new Inventory(userId);
+                inventory = new Inventory(userId, InventoryType.Stash);
 
                 await _inventoryRepository.SaveAsync(inventory);
             }
@@ -92,7 +92,7 @@ namespace IdleRpgApi.Application.InventoryModule
             var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
-                inventory = new Inventory(userId);
+                inventory = new Inventory(userId, InventoryType.Stash);
 
             inventory.ClearItems();
 

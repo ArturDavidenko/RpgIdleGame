@@ -17,11 +17,11 @@ namespace IdleRpgApi.Domain.Entities
 
         private Inventory() { }
 
-        public Inventory(Guid userId)
+        public Inventory(Guid userId, InventoryType type)
         {
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
-            Type = InventoryType.Stash;
+            Type = type;
         }
 
         public void ClearItems()

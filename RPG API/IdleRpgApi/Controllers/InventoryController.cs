@@ -23,7 +23,7 @@ namespace IdleRpgApi.Controllers
         {
             var userId = User.GetUserId();
 
-            var inventory = await _inventoryService.GetByUserIdAndTypeAsync(userId);
+            var inventory = await _inventoryService.GetStashInventoryAsync(userId);
 
             return Ok(inventory);
         }
