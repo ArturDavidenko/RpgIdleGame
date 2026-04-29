@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Inventory, InventoryItem, InventoryItemView, ITEM_DEFINITIONS, ItemDefinition, MOCK_INVENTORY, MOCK_INVENTORY_ITEMS } from '../models/Inventory-item.model';
+import { Inventory, InventoryItem, InventoryItemView, ItemDefinition } from '../models/Inventory-item.model';
 import { BehaviorSubject } from 'rxjs';
 import { combineLatest, map } from 'rxjs';
 
