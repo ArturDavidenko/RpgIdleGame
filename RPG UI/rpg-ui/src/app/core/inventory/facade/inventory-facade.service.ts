@@ -32,4 +32,19 @@ export class InventoryFacade {
         error: (err) => alert('Save failed')
     });
   }
+
+  generateRandomItem() {
+    this.api.generateRandomItem().subscribe({
+      next: (item) => {
+        this.state.addItem(item);
+      },
+      error: (err) => {
+        if (err.error?.message === 'Inventory is full') {
+          alert('Inventory is full');
+        } else {
+          alert('Failed to generate item');
+        }
+      }
+    });
+  }
 }

@@ -54,6 +54,10 @@ export class StashInventoryComponent implements OnInit {
     this.inventoryFacade.saveInventory();
   }
 
+  onGenerateItem() {
+   this.inventoryFacade.generateRandomItem();
+  }
+
   onItemMouseDown(data: { event: MouseEvent; item: InventoryItemView }) {
     const { event, item } = data;
 

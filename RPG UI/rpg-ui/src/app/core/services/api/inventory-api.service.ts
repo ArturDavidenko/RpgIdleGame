@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Inventory, ItemDefinition } from '../../inventory/models/Inventory-item.model';
+import { Inventory, InventoryItem, ItemDefinition } from '../../inventory/models/Inventory-item.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -25,6 +25,13 @@ export class InventoryApiService {
     return this.http.post<Inventory>(
       `${environment.apiBaseUrl}/api/Inventory`,
       inventory
+    );
+  }
+
+  generateRandomItem() {
+    return this.http.post<InventoryItem>(
+      `${environment.apiBaseUrl}/api/Inventory/random-item`,
+      {}
     );
   }
 }
