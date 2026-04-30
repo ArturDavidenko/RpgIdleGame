@@ -1,4 +1,6 @@
-﻿namespace IdleRpgApi.Domain.Entities
+﻿using IdleRpgApi.Middleware.ExceptionHandling;
+
+namespace IdleRpgApi.Domain.Entities
 {
     public class InventoryItem
     {
@@ -37,10 +39,10 @@
         private void Validate()
         {
             if (Quantity <= 0)
-                throw new Exception("Quantity must be >= 1");
+                throw new DomainException("Quantity must be >= 1");
 
             if (string.IsNullOrWhiteSpace(Rarity))
-                throw new Exception("Rarity is required");
+                throw new DomainException("Rarity is required");
         }
     }
 }

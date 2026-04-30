@@ -7,6 +7,7 @@ using IdleRpgApi.Infrastructure.GameData;
 using IdleRpgApi.Infrastructure.Persistence;
 using IdleRpgApi.Infrastructure.Repositories;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
+using IdleRpgApi.Middleware.ExceptionHandling;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -117,6 +118,9 @@ namespace IdleRpgApi
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
             builder.Host.UseSerilog();
 
             var app = builder.Build();
@@ -127,6 +131,8 @@ namespace IdleRpgApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseExceptionHandler();
 
             app.UseCors("AllowAngularApp");
             app.UseHttpsRedirection();

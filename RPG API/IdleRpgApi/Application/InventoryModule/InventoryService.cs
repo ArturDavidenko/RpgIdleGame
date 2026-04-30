@@ -2,6 +2,7 @@
 using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Domain.Enums;
+using IdleRpgApi.Domain.Exceptions;
 using IdleRpgApi.Domain.Services;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 
@@ -62,7 +63,7 @@ namespace IdleRpgApi.Application.InventoryModule
             if (position == null)
             {
                 _logger.LogWarning("Inventory is full for user {UserId}", userId);
-                throw new Exception("Inventory is full");
+                throw new InventoryFullException();
             }
              
             var item = inventory.AddItem(
@@ -99,6 +100,8 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 await _inventoryRepository.SaveAsync(inventory);
             }
+
+            _logger.LogInformation("User {UserId} retrieved stash inventory", userId);
 
             return MapToDto(inventory);
         }

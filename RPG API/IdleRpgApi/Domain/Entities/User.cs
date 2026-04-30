@@ -1,4 +1,6 @@
-﻿namespace IdleRpgApi.Domain.Entities
+﻿using IdleRpgApi.Middleware.ExceptionHandling;
+
+namespace IdleRpgApi.Domain.Entities
 {
     public class User
     {
@@ -14,13 +16,13 @@
         public User(string email, string userName, string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("Email is required");
+                throw new DomainException("Email is required");
 
             if (string.IsNullOrWhiteSpace(userName))
-                throw new ArgumentException("Username is required");
+                throw new DomainException("Username is required");
 
             if (string.IsNullOrWhiteSpace(passwordHash))
-                throw new ArgumentException("Password hash is required");
+                throw new DomainException("Password hash is required");
 
             Email = email;
             PasswordHash = passwordHash;

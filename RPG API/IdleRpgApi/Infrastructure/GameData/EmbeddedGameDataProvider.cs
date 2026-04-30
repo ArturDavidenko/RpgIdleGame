@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using IdleRpgApi.Infrastructure.GameData.Exceptions;
+using System.Reflection;
 
 namespace IdleRpgApi.Infrastructure.GameData
 {
@@ -13,7 +14,7 @@ namespace IdleRpgApi.Infrastructure.GameData
             using var stream = assembly.GetManifestResourceStream(resourceName);
 
             if (stream == null)
-                throw new Exception($"Resource not found: {resourceName}");
+                throw new EmbeddedResourceNotFoundException(resourceName);
 
             using var reader = new StreamReader(stream);
 

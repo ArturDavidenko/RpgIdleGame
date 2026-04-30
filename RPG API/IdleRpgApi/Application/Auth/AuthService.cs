@@ -1,4 +1,5 @@
 ﻿using IdleRpgApi.Application.Auth.DTOs;
+using IdleRpgApi.Application.Auth.Exceptions;
 using IdleRpgApi.Application.InventoryModule;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
@@ -27,7 +28,7 @@ namespace IdleRpgApi.Application.Auth
             var user = await _userRepository.GetByEmailAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Invalid credentials");
+                throw new InvalidCredentialsException();
 
             var isValid = BCrypt.Net.BCrypt.Verify(
                 request.Password,
@@ -35,7 +36,7 @@ namespace IdleRpgApi.Application.Auth
             );
 
             if (!isValid)
-                throw new Exception("Invalid credentials");
+                throw new InvalidCredentialsException();
 
             var token = _jwtService.GenerateToken(user);
 
@@ -57,11 +58,11 @@ namespace IdleRpgApi.Application.Auth
         {
             var existingEmailUser = await _userRepository.GetByEmailAsync(request.Email);
             if (existingEmailUser != null)
-                throw new Exception("User email already exists");
+                throw new EmailAlreadyExistsException(request.Email);
 
             var existingUsernameUser = await _userRepository.GetByUserNameAsync(request.UserName);
             if (existingUsernameUser != null)
-                throw new Exception("Username already exists");
+                throw new UsernameAlreadyExistsException(request.UserName);
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 

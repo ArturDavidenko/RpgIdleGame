@@ -1,4 +1,5 @@
 ﻿using IdleRpgApi.Domain.Enums;
+using IdleRpgApi.Middleware.ExceptionHandling;
 
 namespace IdleRpgApi.Domain.Entities
 {
@@ -32,7 +33,7 @@ namespace IdleRpgApi.Domain.Entities
         public InventoryItem AddItem(string definitionId, int x, int y, int? quantity = null, string? rarity = null)
         {
             if (_items.Any(i => i.X == x && i.Y == y))
-                throw new Exception("Slot already occupied");
+                throw new DomainException("Slot already occupied");
 
             var item = new InventoryItem(Id, definitionId, x, y, quantity, rarity);
 
