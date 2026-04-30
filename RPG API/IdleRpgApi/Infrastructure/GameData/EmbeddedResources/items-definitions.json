@@ -24,12 +24,23 @@
   {
     "id": "scream_orb",
     "name": "Scream orb",
-    "description": "Unpredictable chance item stats",
+    "description": "Unpredictable chance item",
     "type": "currency",
     "width": 1,
     "height": 1,
     "textureUrl": "assets/InventoryImages/scream-orb.png",
     "stackable": true,
     "maxStack": 20
+  },
+  {
+    "id": "divine_orb",
+    "name": "Divine orb",
+    "description": "Chance item stats value",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/divine-orb.png",
+    "stackable": true,
+    "maxStack": 10
   }
 ]
