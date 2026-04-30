@@ -1,4 +1,5 @@
 ﻿using IdleRpgApi.Application.Auth.DTOs;
+using IdleRpgApi.Application.InventoryModule;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 
@@ -7,14 +8,18 @@ namespace IdleRpgApi.Application.Auth
 {
     public class AuthService : IAuthService
     {
-
         private readonly IUserRepository _userRepository;
         private readonly IJwtService _jwtService;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUserRepository userRepository, IJwtService jwtService)
+
+        public AuthService(IUserRepository userRepository, 
+            IJwtService jwtService, 
+            ILogger<AuthService> logger)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
+            _logger = logger;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginRequest request)
@@ -33,6 +38,8 @@ namespace IdleRpgApi.Application.Auth
                 throw new Exception("Invalid credentials");
 
             var token = _jwtService.GenerateToken(user);
+
+            _logger.LogInformation("User logged in with ID {UserId} and email {Email}", user.Id, user.Email);
 
             return new AuthResponse
             {
@@ -65,6 +72,8 @@ namespace IdleRpgApi.Application.Auth
             );
 
             await _userRepository.AddAsync(user);
+
+            _logger.LogInformation("User registered with ID {UserId} and email {Email}", user.Id, user.Email);
         }
     }
 }

@@ -12,11 +12,17 @@ namespace IdleRpgApi.Application.InventoryModule
         private readonly IInventoryRepository _inventoryRepository;
         private readonly InventoryPlacementService _placementService;
         private readonly ItemDefinitionRepository _itemDefinitionRepository;
-        public InventoryService(IInventoryRepository inventoryRepository, InventoryPlacementService placementService, ItemDefinitionRepository itemDefinitionRepository) 
+        private readonly ILogger<InventoryService> _logger;
+        public InventoryService(IInventoryRepository inventoryRepository, 
+            InventoryPlacementService placementService, 
+            ItemDefinitionRepository itemDefinitionRepository,
+            ILogger<InventoryService> logger
+            ) 
         { 
             _inventoryRepository = inventoryRepository; 
             _placementService = placementService;   
             _itemDefinitionRepository = itemDefinitionRepository;
+            _logger = logger;
         }
 
         public async Task<InventoryItemDto> AddRandomItemAsync(Guid userId)
@@ -54,8 +60,11 @@ namespace IdleRpgApi.Application.InventoryModule
             );
 
             if (position == null)
+            {
+                _logger.LogWarning("Inventory is full for user {UserId}", userId);
                 throw new Exception("Inventory is full");
-
+            }
+             
             var item = inventory.AddItem(
                 randomDef.Id,
                 position.Value.x,
@@ -63,6 +72,13 @@ namespace IdleRpgApi.Application.InventoryModule
             );
 
             await _inventoryRepository.SaveAsync(inventory);
+
+            _logger.LogInformation(
+                "Item created for user {UserId}, item {ItemId}, def {DefinitionId}",
+                userId, item.Id, item.DefinitionId
+            );
+
+            _logger.LogInformation("Inventory saved for user {UserId}", userId);
 
             return new InventoryItemDto
             {
@@ -108,6 +124,8 @@ namespace IdleRpgApi.Application.InventoryModule
             }
 
             await _inventoryRepository.SaveAsync(inventory);
+
+            _logger.LogInformation("Inventory saved for user {UserId}", userId);
         }
 
         private InventoryDto MapToDto(Inventory inventory)

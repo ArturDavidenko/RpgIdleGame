@@ -10,6 +10,7 @@ using IdleRpgApi.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 using System.Text.Json;
 
@@ -96,6 +97,12 @@ namespace IdleRpgApi
                 o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
@@ -109,6 +116,8 @@ namespace IdleRpgApi
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+            builder.Host.UseSerilog();
 
             var app = builder.Build();
 
