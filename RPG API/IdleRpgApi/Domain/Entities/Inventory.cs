@@ -41,5 +41,18 @@ namespace IdleRpgApi.Domain.Entities
 
             return item;
         }
+
+        public void MoveItem(int fromX, int fromY, int toX, int toY)
+        {
+            var item = _items.FirstOrDefault(i => i.X == fromX && i.Y == fromY);
+
+            if (item == null)
+                throw new DomainException("Item not found");
+
+            if (_items.Any(i => i.X == toX && i.Y == toY))
+                throw new DomainException("Target slot occupied");
+
+            item.MoveTo(toX, toY);
+        }
     }
 }

@@ -44,5 +44,11 @@ namespace IdleRpgApi.Domain.Entities
             if (string.IsNullOrWhiteSpace(Rarity))
                 throw new DomainException("Rarity is required");
         }
+
+        public void MoveTo(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }
