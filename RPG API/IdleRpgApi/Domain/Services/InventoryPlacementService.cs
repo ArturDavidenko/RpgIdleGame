@@ -8,6 +8,7 @@ namespace IdleRpgApi.Domain.Services
         private readonly int _columns;
         private readonly int _rows;
 
+        //TODO: cols and rows should be configurable per inventory type
         public InventoryPlacementService(int columns = 15, int rows = 10)
         {
             _columns = columns;
@@ -30,7 +31,7 @@ namespace IdleRpgApi.Domain.Services
             return null;
         }
 
-        private bool CanPlace(
+        public bool CanPlace(
             IEnumerable<PlacedItem> items,
             ItemDefinition def,
             int startX,

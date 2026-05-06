@@ -110,6 +110,7 @@ namespace IdleRpgApi
 
             builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+            builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
             builder.Services.AddSingleton<IGameDataProvider, EmbeddedGameDataProvider>();
 
             builder.Services.AddSingleton<InventoryPlacementService>();

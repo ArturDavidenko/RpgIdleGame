@@ -8,6 +8,11 @@ namespace IdleRpgApi.Application.InventoryModule.Commands
 
         public InventoryCommandType CommandType { get; set; }
 
-        public JsonElement Payload { get; set; }
+        public string DefinitionId { get; set; } = null!;
+
+        public Guid ItemId { get; set; }
+
+        public int? ToX { get; set; }
+        public int? ToY { get; set; }
     }
 }

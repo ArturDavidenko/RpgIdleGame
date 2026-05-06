@@ -12,7 +12,7 @@ namespace IdleRpgApi.Infrastructure.Repositories
 
         public InventoryRepository(AppDbContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         public async Task<Inventory?> GetByUserIdAndTypeAsync(Guid userId, InventoryType type)

@@ -50,5 +50,15 @@ namespace IdleRpgApi.Domain.Entities
             X = x;
             Y = y;
         }
+
+        public void Update(int x, int y, int quantity, string rarity)
+        {
+            X = x;
+            Y = y;
+            Quantity = quantity;
+            Rarity = rarity;
+
+            Validate();
+        }
     }
 }
