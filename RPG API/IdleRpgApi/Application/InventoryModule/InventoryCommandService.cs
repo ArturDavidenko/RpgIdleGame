@@ -1,4 +1,5 @@
-﻿using IdleRpgApi.Application.GameData;
+﻿using IdleRpgApi.Application.Exceptions;
+using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
@@ -39,7 +40,7 @@ namespace IdleRpgApi.Application.InventoryModule
                     userId,
                     InventoryType.Stash);
 
-                throw new Exception("Inventory not found");
+                throw new InventoryNotFoundException(userId, InventoryType.Stash);
             }
 
             switch (command.CommandType)
@@ -47,7 +48,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 case InventoryCommandType.MoveItem:
                     {
                         if (!command.ToX.HasValue || !command.ToY.HasValue)
-                            throw new Exception("MoveItem requires ToX and ToY");
+                            throw new InvalidInventoryCommandException("MoveItem requires ToX and ToY");
 
                         var itemDefinition = _itemDefinitionRepository.Get(command.DefinitionId);
 
@@ -73,7 +74,7 @@ namespace IdleRpgApi.Application.InventoryModule
                             command.ToX.Value,
                             command.ToY.Value))
                         {
-                            throw new Exception("Cannot move item here");
+                            throw new ItemPlacementException();
                         }
 
 
@@ -107,7 +108,7 @@ namespace IdleRpgApi.Application.InventoryModule
                     }
 
                 default:
-                    throw new Exception($"Command {command.CommandType} is not supported");
+                    throw new InvalidInventoryCommandException($"Command {command.CommandType} is not supported");
             }
 
             await _inventoryRepository.SaveAsync(inventory);

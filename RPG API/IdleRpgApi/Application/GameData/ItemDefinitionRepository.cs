@@ -1,4 +1,5 @@
-﻿using IdleRpgApi.Infrastructure.GameData;
+﻿using IdleRpgApi.Application.Exceptions;
+using IdleRpgApi.Infrastructure.GameData;
 using System.Text.Json;
 
 namespace IdleRpgApi.Application.GameData
@@ -19,7 +20,7 @@ namespace IdleRpgApi.Application.GameData
             var items = JsonSerializer.Deserialize<List<ItemDefinition>>(json, options)!;
 
             if (items.Any(x => string.IsNullOrWhiteSpace(x.Id)))
-                throw new Exception("Invalid ItemDefinition JSON (missing id)");
+                throw new ItemDefinitionLoadException("Invalid ItemDefinition JSON (missing id)");
 
             _items = items.ToDictionary(x => x.Id);
         }

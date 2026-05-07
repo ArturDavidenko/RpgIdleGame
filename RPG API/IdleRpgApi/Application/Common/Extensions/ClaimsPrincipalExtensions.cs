@@ -9,7 +9,7 @@ namespace IdleRpgApi.Application.Common.Extensions
             var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (userId == null)
-                throw new Exception("User ID not found in token");
+                throw new UnauthorizedAccessException("User ID not found in token");
 
             return Guid.Parse(userId);
         }
