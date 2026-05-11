@@ -89,7 +89,11 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.DropItem:
                     {
-                        //later
+                        inventory.RemoveItem(command.ItemId);
+                        _logger.LogInformation(
+                            "Item {ItemId} dropped from inventory for user {UserId}",
+                            command.ItemId,
+                            userId);
                         break;
                     }
 
