@@ -86,7 +86,9 @@ namespace IdleRpgApi.Application.InventoryModule
                 Id = item.Id,
                 DefinitionId = item.DefinitionId,
                 X = item.X,
-                Y = item.Y
+                Y = item.Y,
+                Quantity = item.Quantity,
+                Rarity = item.Rarity
             };
         }
 

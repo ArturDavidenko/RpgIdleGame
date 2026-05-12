@@ -30,7 +30,7 @@ namespace IdleRpgApi.Domain.Entities
             _items.Clear();
         }
 
-        public InventoryItem AddItem(string definitionId, int x, int y, int? quantity = null, string? rarity = null)
+        public InventoryItem AddItem(string definitionId, int x, int y, int? quantity = 1, string? rarity = "Common")
         {
             if (_items.Any(i => i.X == x && i.Y == y))
                 throw new DomainException("Slot already occupied");
