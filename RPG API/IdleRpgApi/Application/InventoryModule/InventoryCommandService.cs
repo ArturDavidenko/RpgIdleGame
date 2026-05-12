@@ -47,8 +47,8 @@ namespace IdleRpgApi.Application.InventoryModule
             {
                 case InventoryCommandType.MoveItem:
                     {
-                        if (!command.ToX.HasValue || !command.ToY.HasValue)
-                            throw new InvalidInventoryCommandException("MoveItem requires ToX and ToY");
+                        if (command.Move is null)
+                            throw new InvalidInventoryCommandException("MoveItem requires move payload");
 
                         var itemDefinition = _itemDefinitionRepository.Get(command.DefinitionId);
 
@@ -71,8 +71,8 @@ namespace IdleRpgApi.Application.InventoryModule
                         if (!_placementService.CanPlace(
                             placedItems,
                             itemDefinition,
-                            command.ToX.Value,
-                            command.ToY.Value))
+                            command.Move.ToX,
+                            command.Move.ToY))
                         {
                             throw new ItemPlacementException();
                         }
@@ -80,8 +80,8 @@ namespace IdleRpgApi.Application.InventoryModule
 
                         inventory.MoveItem(
                             command.ItemId,
-                            command.ToX.Value,
-                            command.ToY.Value
+                            command.Move.ToX,
+                            command.Move.ToY
                         );
 
                         break;

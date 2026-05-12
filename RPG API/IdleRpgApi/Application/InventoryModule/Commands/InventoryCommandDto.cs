@@ -12,7 +12,24 @@ namespace IdleRpgApi.Application.InventoryModule.Commands
 
         public Guid ItemId { get; set; }
 
-        public int? ToX { get; set; }
-        public int? ToY { get; set; }
+        public MoveItemDto? Move { get; init; }
+        public SplitItemDto? Split { get; init; }
+        public MergeItemDto? Merge { get; init; }
     }
+
+    public sealed class MoveItemDto
+    {
+        public int ToX { get; init; }
+        public int ToY { get; init; }
+    }
+
+    public sealed class SplitItemDto
+    {
+        public int Quantity { get; init; }
+    }
+    public sealed class MergeItemDto
+    {
+        public Guid TargetItemId { get; init; }
+    }
+
 }
