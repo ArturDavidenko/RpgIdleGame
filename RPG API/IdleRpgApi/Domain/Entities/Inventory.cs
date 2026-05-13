@@ -30,6 +30,11 @@ namespace IdleRpgApi.Domain.Entities
             _items.Clear();
         }
 
+        public InventoryItem GetItem(Guid itemId)
+        {
+            return _items.Single(i => i.Id == itemId);
+        }
+
         public InventoryItem AddItem(string definitionId, int x, int y, int? quantity = 1, string? rarity = "Common")
         {
             if (_items.Any(i => i.X == x && i.Y == y))

@@ -1,4 +1,5 @@
-﻿using IdleRpgApi.Middleware.ExceptionHandling;
+﻿using IdleRpgApi.Application.InventoryModule.DTOs;
+using IdleRpgApi.Middleware.ExceptionHandling;
 
 namespace IdleRpgApi.Domain.Entities
 {
@@ -34,6 +35,25 @@ namespace IdleRpgApi.Domain.Entities
             Rarity = rarity ?? "Common";
 
             Validate();
+        }
+
+        public ItemSplitResult Split(int quantity)
+        {
+            if (quantity <= 0)
+                throw new DomainException("Invalid quantity");
+
+            if (Quantity <= quantity)
+                throw new DomainException("Not enough quantity");
+
+            Quantity -= quantity;
+
+            return new ItemSplitResult
+            {
+                InventoryId = InventoryId,
+                DefinitionId = DefinitionId,
+                Quantity = quantity,
+                Rarity = Rarity
+            };
         }
 
         private void Validate()

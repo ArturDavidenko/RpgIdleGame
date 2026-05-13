@@ -1,4 +1,5 @@
 ﻿using IdleRpgApi.Application.GameData;
+using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Domain.Enums;
@@ -159,6 +160,46 @@ namespace IdleRpgApi.Application.InventoryModule
             await _inventoryRepository.SaveAsync(inventory);
 
             _logger.LogInformation("Inventory synced for user {UserId}", userId);
+        }
+
+        public async Task<InventoryDto> SplitItemAsync(InventoryCommandDto command)
+        {
+            var inventory =  await _inventoryRepository.GetByIdAsync(command.InventoryId);
+
+            var item = inventory.GetItem(command.ItemId);
+
+            var result = item.Split(command.Split.Quantity);
+
+            var definition = _itemDefinitionRepository.Get(item.DefinitionId);
+
+            var position = _placementService.FindFreeSpot(
+                inventory.Items.Select(i =>
+                {
+                    return new PlacedItem
+                    {
+                        X = i.X,
+                        Y = i.Y,
+                        Width = definition.Width,
+                        Height = definition.Height
+                    };
+                }).ToList(),
+                definition
+            );
+
+            if (position == null)
+                throw new InventoryFullException();
+
+            inventory.AddItem(
+                result.DefinitionId,
+                position.Value.x,
+                position.Value.y,
+                result.Quantity,
+                result.Rarity
+            );
+
+            await _inventoryRepository.SaveAsync(inventory);
+
+            return MapToDto(inventory);
         }
 
         private InventoryDto MapToDto(Inventory inventory)

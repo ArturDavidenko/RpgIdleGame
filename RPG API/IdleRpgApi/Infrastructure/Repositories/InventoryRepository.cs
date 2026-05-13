@@ -15,11 +15,19 @@ namespace IdleRpgApi.Infrastructure.Repositories
             _context = context; 
         }
 
+        public async Task<Inventory?> GetByIdAsync(Guid inventoryId)
+        {
+            return await _context.Inventories
+                .Include(i => i.Items)
+                .SingleOrDefaultAsync(i => i.Id == inventoryId);
+        }
+
+        //TODO: MB NEED REMOVE THAT METHOD LATER and DO refactor ! 
         public async Task<Inventory?> GetByUserIdAndTypeAsync(Guid userId, InventoryType type)
         {
             return await _context.Inventories
                 .Include(i => i.Items)
-                .FirstOrDefaultAsync(i => i.UserId == userId && i.Type == type);
+                .SingleOrDefaultAsync(i => i.UserId == userId && i.Type == type);
         }
 
         public async Task SaveAsync(Inventory inventory)

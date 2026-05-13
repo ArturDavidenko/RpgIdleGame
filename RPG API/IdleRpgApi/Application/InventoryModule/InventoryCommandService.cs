@@ -15,17 +15,20 @@ namespace IdleRpgApi.Application.InventoryModule
         private readonly IInventoryRepository _inventoryRepository;
         private readonly ILogger<InventoryCommandService> _logger;
         private readonly ItemDefinitionRepository _itemDefinitionRepository; 
-        private readonly InventoryPlacementService _placementService; 
+        private readonly InventoryPlacementService _placementService;
+        private readonly IInventoryService _inventoryService;
 
         public InventoryCommandService(IInventoryRepository inventoryRepository, 
             ILogger<InventoryCommandService> logger, 
             ItemDefinitionRepository itemDefinitionRepository,
-            InventoryPlacementService placementService)
+            InventoryPlacementService placementService,
+            IInventoryService inventoryService)
         {
             _inventoryRepository = inventoryRepository;
             _logger = logger;
             _itemDefinitionRepository = itemDefinitionRepository;
             _placementService = placementService;
+            _inventoryService = inventoryService;
         }   
 
         public async Task<InventoryDto> ExecuteAsync(InventoryCommandDto command, Guid userId)
@@ -45,6 +48,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             switch (command.CommandType)
             {
+                //TODO: Move Move Logic to Service Layer
                 case InventoryCommandType.MoveItem:
                     {
                         if (command.Move is null)
@@ -100,7 +104,11 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.SplitItem:
                     {
-                        //later
+                        await _inventoryService.SplitItemAsync(command);
+                        _logger.LogInformation(
+                            "Item {ItemId} split in inventory for user {UserId}",
+                            command.ItemId,
+                            userId);
                         break;
                     }
 

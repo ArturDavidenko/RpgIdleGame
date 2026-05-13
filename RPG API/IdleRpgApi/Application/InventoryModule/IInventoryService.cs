@@ -1,4 +1,5 @@
-﻿using IdleRpgApi.Application.InventoryModule.DTOs;
+﻿using IdleRpgApi.Application.InventoryModule.Commands;
+using IdleRpgApi.Application.InventoryModule.DTOs;
 
 namespace IdleRpgApi.Application.InventoryModule;
 
@@ -9,4 +10,6 @@ public interface IInventoryService
     Task SaveAsync(Guid userId, InventoryDto dto);
 
     Task<InventoryItemDto> AddRandomItemAsync(Guid userId);
+
+    Task<InventoryDto> SplitItemAsync(InventoryCommandDto command);
 }
