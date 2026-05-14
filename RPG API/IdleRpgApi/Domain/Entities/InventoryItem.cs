@@ -56,6 +56,27 @@ namespace IdleRpgApi.Domain.Entities
             };
         }
 
+        public void AddQuantity(int quantity)
+        {
+            if (quantity <= 0)
+                throw new DomainException("Quantity must be greater than zero.");
+
+            Quantity += quantity;
+
+            Validate();
+        }
+
+        public void RemoveQuantity(int quantity)
+        {
+            if (quantity <= 0)
+                throw new DomainException("Quantity must be greater than zero.");
+
+            if (quantity > Quantity)
+                throw new DomainException("Cannot remove more items than available.");
+
+            Quantity -= quantity;
+        }
+
         private void Validate()
         {
             if (Quantity <= 0)

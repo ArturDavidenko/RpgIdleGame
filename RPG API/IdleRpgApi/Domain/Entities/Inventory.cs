@@ -49,7 +49,7 @@ namespace IdleRpgApi.Domain.Entities
 
         public void MoveItem(Guid itemId, int toX, int toY)
         {
-            var item = _items.FirstOrDefault(i => i.Id == itemId);
+            var item = _items.SingleOrDefault(i => i.Id == itemId);
 
             if (item == null)
                 throw new DomainException("Item not found");
@@ -60,9 +60,37 @@ namespace IdleRpgApi.Domain.Entities
             item.MoveTo(toX, toY);
         }
 
+        public void MergeItems(Guid sourceItemId, Guid targetItemId, int maxStackSize)
+        {
+            if (sourceItemId == targetItemId)
+                throw new DomainException("Cannot merge item into itself.");
+
+            var source = GetItem(sourceItemId);
+            var target = GetItem(targetItemId);
+
+            if (source.DefinitionId != target.DefinitionId)
+                throw new DomainException("Items must have the same definition.");
+
+            if (source.Rarity != target.Rarity)
+                throw new DomainException("Items must have the same rarity.");
+
+            if (target.Quantity >= maxStackSize)
+                throw new DomainException("Target stack is already full.");
+
+            var availableSpace = maxStackSize - target.Quantity;
+
+            var quantityToTransfer = Math.Min(source.Quantity, availableSpace);
+
+            target.AddQuantity(quantityToTransfer);
+            source.RemoveQuantity(quantityToTransfer);
+
+            if (source.Quantity == 0)
+                RemoveItem(source.Id);
+        }
+
         public void RemoveItem(Guid itemId)
         {
-            var item = _items.FirstOrDefault(i => i.Id == itemId);
+            var item = _items.SingleOrDefault(i => i.Id == itemId);
 
             if (item == null)
                 throw new DomainException("Item not found");

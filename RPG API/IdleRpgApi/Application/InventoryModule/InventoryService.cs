@@ -109,6 +109,22 @@ namespace IdleRpgApi.Application.InventoryModule
             return MapToDto(inventory);
         }
 
+        public async Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command)
+        {
+            var inventory = await _inventoryRepository.GetByIdAsync(command.InventoryId);
+            var definition = _itemDefinitionRepository.Get(command.DefinitionId);
+
+            inventory.MergeItems(
+                command.ItemId,
+                command.Merge.TargetItemId,
+                definition.MaxStack.Value
+            );
+
+            await _inventoryRepository.SaveAsync(inventory);
+
+            return MapToDto(inventory);
+        }
+
         public async Task SaveAsync(Guid userId, InventoryDto dto)
         {
             var inventory = await _inventoryRepository

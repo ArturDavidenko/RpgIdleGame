@@ -115,7 +115,10 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.MergeItem:
                     {
-                        //later
+                        await _inventoryService.MergeItemsAsync(command);
+                        _logger.LogInformation(
+                            "Items merged in inventory for user {UserId}",
+                            userId);
                         break;
                     }
 

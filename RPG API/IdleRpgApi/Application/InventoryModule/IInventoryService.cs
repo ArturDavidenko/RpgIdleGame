@@ -12,4 +12,6 @@ public interface IInventoryService
     Task<InventoryItemDto> AddRandomItemAsync(Guid userId);
 
     Task<InventoryDto> SplitItemAsync(InventoryCommandDto command);
+
+    Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command);
 }
