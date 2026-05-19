@@ -2,6 +2,7 @@
 using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
+using IdleRpgApi.Application.Mapping;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Domain.Enums;
 using IdleRpgApi.Domain.Exceptions;
@@ -107,7 +108,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             _logger.LogInformation("User {UserId} retrieved stash inventory", userId);
 
-            return MapToDto(inventory);
+            return inventory.ToDto();
         }
 
         public async Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command, Inventory inventory)
@@ -120,7 +121,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 definition.MaxStack.Value
             );
 
-            return MapToDto(inventory);
+            return inventory.ToDto();
         }
 
         public async Task<InventoryDto> MoveItemAsync(InventoryCommandDto command, Inventory inventory)
@@ -162,7 +163,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 command.Move.ToY
             );
 
-            return MapToDto(inventory);
+            return inventory.ToDto();
         }
 
         public async Task SaveAsync(Guid userId, InventoryDto dto)
@@ -253,27 +254,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 result.Rarity
             );
 
-            return MapToDto(inventory);
+            return inventory.ToDto();
         }
-
-        private InventoryDto MapToDto(Inventory inventory)
-        {
-            return new InventoryDto
-            {
-                Id = inventory.Id,
-                Type = inventory.Type.ToString(),
-                Items = inventory.Items.Select(i => new InventoryItemDto
-                {
-                    Id = i.Id,
-                    DefinitionId = i.DefinitionId,
-                    X = i.X,
-                    Y = i.Y,
-                    Quantity = i.Quantity,
-                    Rarity = i.Rarity
-                }).ToList()
-            };
-        }
-
-
     }
 }

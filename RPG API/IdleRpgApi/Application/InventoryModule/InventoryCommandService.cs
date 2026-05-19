@@ -2,6 +2,7 @@
 using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
+using IdleRpgApi.Application.Mapping;
 using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Domain.Enums;
 using IdleRpgApi.Domain.Services;
@@ -14,8 +15,6 @@ namespace IdleRpgApi.Application.InventoryModule
 
         private readonly IInventoryRepository _inventoryRepository;
         private readonly ILogger<InventoryCommandService> _logger;
-        private readonly ItemDefinitionRepository _itemDefinitionRepository; 
-        private readonly InventoryPlacementService _placementService;
         private readonly IInventoryService _inventoryService;
 
         public InventoryCommandService(IInventoryRepository inventoryRepository, 
@@ -26,8 +25,6 @@ namespace IdleRpgApi.Application.InventoryModule
         {
             _inventoryRepository = inventoryRepository;
             _logger = logger;
-            _itemDefinitionRepository = itemDefinitionRepository;
-            _placementService = placementService;
             _inventoryService = inventoryService;
         }   
 
@@ -99,25 +96,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 command.CommandType,
                 userId);
 
-            return MapToDto(inventory);
-        }
-
-        private InventoryDto MapToDto(Inventory inventory)
-        {
-            return new InventoryDto
-            {
-                Id = inventory.Id,
-                Type = inventory.Type.ToString(),
-                Items = inventory.Items.Select(i => new InventoryItemDto
-                {
-                    Id = i.Id,
-                    DefinitionId = i.DefinitionId,
-                    X = i.X,
-                    Y = i.Y,
-                    Quantity = i.Quantity,
-                    Rarity = i.Rarity
-                }).ToList()
-            };
+            return inventory.ToDto();
         }
     }
 }
