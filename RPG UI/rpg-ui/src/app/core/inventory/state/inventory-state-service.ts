@@ -27,12 +27,37 @@ export class InventoryStateService {
     return this.inventorySubject.getValue().items;
   }
 
+  
+  getItemById(itemId: string): InventoryItem | null {
+    return this.inventorySubject.getValue().items.find(i => i.id === itemId) ?? null;
+  }
+
+
   getInventory(): Inventory {
     return this.inventorySubject.getValue();
   }
 
   getDefinitions(): ItemDefinition[] {
     return this.definitionsSubject.getValue();
+  }
+
+  getInventoryId(): string{
+    return this.inventorySubject.getValue().id;
+  }
+
+  //TODO: Remove that later to another layer
+  getItemDefinicitonId(itemId: string) : string{
+    const item = this.inventorySubject.getValue().items.find(i => i.id === itemId);
+
+    if (!item) {
+      throw new Error(`Item not found in state. itemId=${itemId}`);
+    }
+
+    if (!item.definitionId || item.definitionId.trim().length === 0) {
+      throw new Error(`Item has empty definitionId. itemId=${itemId}`);
+    }
+
+    return item.definitionId;
   }
 
   setInventory(inventory: Inventory) {

@@ -9,6 +9,7 @@ import { InventoryService } from '../../../core/inventory/domain/inventory.servi
 import { SplitModalComponent } from '../split-modal-component/split-modal.component';
 import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
 import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
+import { InventoryCommandFactory } from '../../../core/inventory/mapper/InventoryCommandFactory';
 
 @Component({
   selector: 'app-stash-inventory-component',
@@ -93,7 +94,28 @@ export class StashInventoryComponent implements OnInit {
   @HostListener('window:mouseup')
   onMouseUp() {
     const result = this.dragDrop.drop(this.context, this.items);
-    this.inventoryService.handleDrop(result);
+    if (result.type === 'invalid') return;
+
+    
+    if (!result.targetItemId) {
+      const item = this.inventoryState.getItemById(result.itemId);
+      if (!item) return;
+
+      const sameSlot = item.x === result.position.x && item.y === result.position.y;
+      if (sameSlot) {
+        
+        return;
+      }
+    }
+    
+    const inventoryId = this.inventoryState.getInventoryId();
+    const itemDefinicitonId = this.inventoryState.getItemDefinicitonId(result.itemId);
+    const command = result.targetItemId
+      ? InventoryCommandFactory.merge(inventoryId, itemDefinicitonId, result.itemId, result.targetItemId)
+      : InventoryCommandFactory.move(inventoryId, itemDefinicitonId, result.itemId, result.position.x, result.position.y);
+
+
+    this.inventoryFacade.InventoryAction(command);
   }
 
   onCellHover(cell: GridCell) {

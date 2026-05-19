@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { InventoryApiService } from "../../services/api/inventory-api.service";
 import { InventoryStateService } from "../state/inventory-state-service";
+import { InventoryCommandRequest } from "../models/inventory-command-model";
+import { Observable } from "rxjs";
+import { Inventory } from "../models/Inventory-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +49,17 @@ export class InventoryFacade {
         } else {
           alert('Failed to generate item');
         }
+      }
+    });
+  }
+
+  InventoryAction(command: InventoryCommandRequest){
+    this.api.InventoryActionCommand(command).subscribe({
+      next: (inventory) => {
+        this.state.setInventory(inventory);
+      },
+      error: (err) => {
+        alert(err.message);
       }
     });
   }

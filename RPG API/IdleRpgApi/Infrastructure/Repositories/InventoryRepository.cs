@@ -22,7 +22,6 @@ namespace IdleRpgApi.Infrastructure.Repositories
                 .SingleOrDefaultAsync(i => i.Id == inventoryId);
         }
 
-        //TODO: MB NEED REMOVE THAT METHOD LATER and DO refactor ! 
         public async Task<Inventory?> GetByUserIdAndTypeAsync(Guid userId, InventoryType type)
         {
             return await _context.Inventories

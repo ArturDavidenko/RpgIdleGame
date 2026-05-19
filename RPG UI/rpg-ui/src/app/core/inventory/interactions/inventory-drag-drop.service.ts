@@ -137,6 +137,8 @@ export class InventoryDragDropService {
       item.uid
     );
 
+    //TODO: fix invalid response
+
     const result: DragDropResult = {
       type: 'drop',
       itemId: item.uid,
