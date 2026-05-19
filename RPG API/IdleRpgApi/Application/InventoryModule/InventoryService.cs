@@ -1,4 +1,5 @@
-﻿using IdleRpgApi.Application.GameData;
+﻿using IdleRpgApi.Application.Exceptions;
+using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
 using IdleRpgApi.Domain.Entities;
@@ -109,9 +110,8 @@ namespace IdleRpgApi.Application.InventoryModule
             return MapToDto(inventory);
         }
 
-        public async Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command)
+        public async Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command, Inventory inventory)
         {
-            var inventory = await _inventoryRepository.GetByIdAsync(command.InventoryId);
             var definition = _itemDefinitionRepository.Get(command.DefinitionId);
 
             inventory.MergeItems(
@@ -120,7 +120,47 @@ namespace IdleRpgApi.Application.InventoryModule
                 definition.MaxStack.Value
             );
 
-            await _inventoryRepository.SaveAsync(inventory);
+            return MapToDto(inventory);
+        }
+
+        public async Task<InventoryDto> MoveItemAsync(InventoryCommandDto command, Inventory inventory)
+        {
+            if (command.Move is null)
+                throw new InvalidInventoryCommandException("MoveItem requires move payload");
+
+            var itemDefinition = _itemDefinitionRepository.Get(command.DefinitionId);
+
+            var placedItems = inventory.Items
+            .Where(i => i.Id != command.ItemId)
+            .Select(i =>
+            {
+                var def = _itemDefinitionRepository.Get(i.DefinitionId);
+
+                return new PlacedItem
+                {
+                    X = i.X,
+                    Y = i.Y,
+                    Width = def.Width,
+                    Height = def.Height
+                };
+            });
+
+
+            if (!_placementService.CanPlace(
+                placedItems,
+                itemDefinition,
+                command.Move.ToX,
+                command.Move.ToY))
+            {
+                throw new ItemPlacementException();
+            }
+
+
+            inventory.MoveItem(
+                command.ItemId,
+                command.Move.ToX,
+                command.Move.ToY
+            );
 
             return MapToDto(inventory);
         }
@@ -178,10 +218,8 @@ namespace IdleRpgApi.Application.InventoryModule
             _logger.LogInformation("Inventory synced for user {UserId}", userId);
         }
 
-        public async Task<InventoryDto> SplitItemAsync(InventoryCommandDto command)
+        public async Task<InventoryDto> SplitItemAsync(InventoryCommandDto command, Inventory inventory)
         {
-            var inventory =  await _inventoryRepository.GetByIdAsync(command.InventoryId);
-
             var item = inventory.GetItem(command.ItemId);
 
             var result = item.Split(command.Split.Quantity);
@@ -191,12 +229,14 @@ namespace IdleRpgApi.Application.InventoryModule
             var position = _placementService.FindFreeSpot(
                 inventory.Items.Select(i =>
                 {
+                    var def = _itemDefinitionRepository.Get(i.DefinitionId);
+
                     return new PlacedItem
                     {
                         X = i.X,
                         Y = i.Y,
-                        Width = definition.Width,
-                        Height = definition.Height
+                        Width = def.Width,
+                        Height = def.Height
                     };
                 }).ToList(),
                 definition
@@ -212,8 +252,6 @@ namespace IdleRpgApi.Application.InventoryModule
                 result.Quantity,
                 result.Rarity
             );
-
-            await _inventoryRepository.SaveAsync(inventory);
 
             return MapToDto(inventory);
         }

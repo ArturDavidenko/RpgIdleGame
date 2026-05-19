@@ -48,46 +48,12 @@ namespace IdleRpgApi.Application.InventoryModule
 
             switch (command.CommandType)
             {
-                //TODO: Move Move Logic to Service Layer
                 case InventoryCommandType.MoveItem:
                     {
-                        if (command.Move is null)
-                            throw new InvalidInventoryCommandException("MoveItem requires move payload");
-
-                        var itemDefinition = _itemDefinitionRepository.Get(command.DefinitionId);
-
-                        var placedItems = inventory.Items
-                        .Where(i => i.Id != command.ItemId)
-                        .Select(i =>
-                        {
-                            var def = _itemDefinitionRepository.Get(i.DefinitionId);
-
-                            return new PlacedItem
-                            {
-                                X = i.X,
-                                Y = i.Y,
-                                Width = def.Width,
-                                Height = def.Height
-                            };
-                        });
-
-
-                        if (!_placementService.CanPlace(
-                            placedItems,
-                            itemDefinition,
-                            command.Move.ToX,
-                            command.Move.ToY))
-                        {
-                            throw new ItemPlacementException();
-                        }
-
-
-                        inventory.MoveItem(
+                        await _inventoryService.MoveItemAsync(command, inventory);
+                        _logger.LogInformation("Item {ItemId} moved in inventory for user {UserId}",
                             command.ItemId,
-                            command.Move.ToX,
-                            command.Move.ToY
-                        );
-
+                            userId);
                         break;
                     }
 
@@ -104,7 +70,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.SplitItem:
                     {
-                        await _inventoryService.SplitItemAsync(command);
+                        await _inventoryService.SplitItemAsync(command, inventory);
                         _logger.LogInformation(
                             "Item {ItemId} split in inventory for user {UserId}",
                             command.ItemId,
@@ -115,7 +81,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.MergeItem:
                     {
-                        await _inventoryService.MergeItemsAsync(command);
+                        await _inventoryService.MergeItemsAsync(command, inventory);
                         _logger.LogInformation(
                             "Items merged in inventory for user {UserId}",
                             userId);
