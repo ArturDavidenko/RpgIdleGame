@@ -3,7 +3,6 @@ import { DragDropResult } from '../interactions/inventory-drag-drop.service';
 import { InventoryStateService } from '../state/inventory-state-service';
 import { MergeHandler } from '../handlers/mergeHandler';
 import { InventoryItem, ItemDefinition } from '../models/Inventory-item.model';
-import { InventoryFacade } from '../facade/inventory-facade.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,6 @@ export class InventoryService {
     this.moveItem(result.itemId, result.position.x, result.position.y);
   }
 
-  // TODO: REMOVE
   private moveItem(itemId: string, x: number, y: number) {
     const items = this.InventoryStateService.getItems();
 
@@ -50,7 +48,6 @@ export class InventoryService {
     this.InventoryStateService.updateItems(updated);
   }
 
-  // TODO: REMOVE
   splitItem(itemId: string, amount: number) {
     const items = this.InventoryStateService.getItems();
 
@@ -85,7 +82,6 @@ export class InventoryService {
     this.InventoryStateService.updateItems(finalItems);
   }
 
-  // TODO: REMOVE
   private placeInFreeSlot(
     items: InventoryItem[],
     newItem: InventoryItem
@@ -120,7 +116,6 @@ export class InventoryService {
     return items;
   }
 
-  // TODO: REMOVE
   private doesItemFitAtPosition(
     items: InventoryItem[],
     newItem: InventoryItem,

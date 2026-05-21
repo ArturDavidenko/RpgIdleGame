@@ -5,6 +5,6 @@ namespace IdleRpgApi.Application.InventoryModule
 {
     public interface IInventoryCommandService
     {
-        public Task<InventoryDto> ExecuteAsync(InventoryCommandDto command, Guid userId);
+        public Task<InventoryActionResponseDto> ExecuteAsync(InventoryCommandDto command, Guid userId);
     }
 }

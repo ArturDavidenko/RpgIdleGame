@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { InventoryApiService } from "../../services/api/inventory-api.service";
 import { InventoryStateService } from "../state/inventory-state-service";
 import { InventoryCommandRequest } from "../models/inventory-command-model";
-import { Observable } from "rxjs";
-import { Inventory } from "../models/Inventory-item.model";
+import { DragDropResult } from "../interactions/inventory-drag-drop.service";
+import { InventoryService } from "../domain/inventory.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,8 @@ export class InventoryFacade {
 
   constructor(  
     private api: InventoryApiService,
-    private state: InventoryStateService
+    private state: InventoryStateService,
+    private inventoryService: InventoryService
   ) {}
 
   init() {
@@ -53,13 +54,17 @@ export class InventoryFacade {
     });
   }
 
-  InventoryAction(command: InventoryCommandRequest){
+  InventoryAction(command: InventoryCommandRequest, dropResult: DragDropResult) {
+    const snapshot = structuredClone(this.state.getInventory());
+
+    this.inventoryService.handleDrop(dropResult);
+
     this.api.InventoryActionCommand(command).subscribe({
-      next: (inventory) => {
-        this.state.setInventory(inventory);
+      next: () => {
+      
       },
       error: (err) => {
-        alert(err.message);
+        this.state.setInventory(snapshot);
       }
     });
   }

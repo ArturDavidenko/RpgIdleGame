@@ -128,16 +128,26 @@ export class InventoryDragDropService {
     const clampedX = Math.max(0, Math.min(dropX, context.cols - item.width));
     const clampedY = Math.max(0, Math.min(dropY, context.rows - item.height));
 
-    const targetItem = this.findItemAtPosition(
+    const targetItem = this.resolveDropTarget(
+      item,
       clampedX,
       clampedY,
-      item.width,
-      item.height,
-      itemsView,
-      item.uid
+      itemsView
     );
 
-    //TODO: fix invalid response
+    const canPlace = this.rules.canPlaceItem(
+      item,
+      clampedX,
+      clampedY,
+      itemsView,
+      context.cols,
+      context.rows
+    );
+
+    if (!canPlace) {
+      this.reset();
+      return { type: 'invalid' };
+    }
 
     const result: DragDropResult = {
       type: 'drop',
@@ -160,26 +170,24 @@ export class InventoryDragDropService {
     this.hoverValid = false;
   }
 
-  private findItemAtPosition(
+  resolveDropTarget(
+    item: InventoryItemView,
     x: number,
     y: number,
-    width: number,
-    height: number,
     items: InventoryItemView[],
-    ignoreUid?: string
   ): InventoryItemView | null {
-    return (
-      items.find(item => {
-        if (ignoreUid && item.uid === ignoreUid) return false;
 
-        return !(
-          x + width <= item.x ||
-          x >= item.x + item.width ||
-          y + height <= item.y ||
-          y >= item.y + item.height
-        );
-      }) ?? null
-    );
+    return items.find(i => {
+      if (i.uid === item.uid) return false;
+
+      const isOverlapping =
+        x < i.x + i.width &&
+        x + item.width > i.x &&
+        y < i.y + i.height &&
+        y + item.height > i.y;
+
+      return isOverlapping;
+    }) ?? null;
   }
 
   private getStableCell(value: number, cellSize: number): number {

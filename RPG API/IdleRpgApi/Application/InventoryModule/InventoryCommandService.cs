@@ -28,7 +28,7 @@ namespace IdleRpgApi.Application.InventoryModule
             _inventoryService = inventoryService;
         }   
 
-        public async Task<InventoryDto> ExecuteAsync(InventoryCommandDto command, Guid userId)
+        public async Task<InventoryActionResponseDto> ExecuteAsync(InventoryCommandDto command, Guid userId)
         {
             var inventory = await _inventoryRepository
                 .GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
@@ -96,7 +96,10 @@ namespace IdleRpgApi.Application.InventoryModule
                 command.CommandType,
                 userId);
 
-            return inventory.ToDto();
+            return new InventoryActionResponseDto
+            {
+                Success = true
+            };
         }
     }
 }

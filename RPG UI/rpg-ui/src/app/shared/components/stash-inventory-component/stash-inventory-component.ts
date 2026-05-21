@@ -94,28 +94,18 @@ export class StashInventoryComponent implements OnInit {
   @HostListener('window:mouseup')
   onMouseUp() {
     const result = this.dragDrop.drop(this.context, this.items);
-    if (result.type === 'invalid') return;
 
-    
-    if (!result.targetItemId) {
-      const item = this.inventoryState.getItemById(result.itemId);
-      if (!item) return;
+    console.log('Drop result:', result);
 
-      const sameSlot = item.x === result.position.x && item.y === result.position.y;
-      if (sameSlot) {
-        
-        return;
-      }
-    }
-    
+    if (result.type !== 'drop') return;
+
     const inventoryId = this.inventoryState.getInventoryId();
     const itemDefinicitonId = this.inventoryState.getItemDefinicitonId(result.itemId);
     const command = result.targetItemId
       ? InventoryCommandFactory.merge(inventoryId, itemDefinicitonId, result.itemId, result.targetItemId)
       : InventoryCommandFactory.move(inventoryId, itemDefinicitonId, result.itemId, result.position.x, result.position.y);
 
-
-    this.inventoryFacade.InventoryAction(command);
+    this.inventoryFacade.InventoryAction(command, result);
   }
 
   onCellHover(cell: GridCell) {

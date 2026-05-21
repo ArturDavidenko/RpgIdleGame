@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { InventoryStateService } from "../state/inventory-state-service";
 import { InventoryItem, ItemDefinition } from "../models/Inventory-item.model";
 
 @Injectable({ providedIn: 'root' })
