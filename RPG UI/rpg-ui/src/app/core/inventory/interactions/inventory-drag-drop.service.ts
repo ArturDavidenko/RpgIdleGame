@@ -135,6 +135,23 @@ export class InventoryDragDropService {
       itemsView
     );
 
+    const canMerge = this.rules.canMergeItems(
+      item,
+      targetItem
+    );
+
+    if (canMerge) {
+
+      this.reset();
+
+      return {
+        type: 'drop',
+        itemId: item.uid,
+        position: { x: clampedX, y: clampedY },
+        targetItemId: targetItem!.uid,
+      };
+    }
+
     const canPlace = this.rules.canPlaceItem(
       item,
       clampedX,
@@ -175,7 +192,7 @@ export class InventoryDragDropService {
     x: number,
     y: number,
     items: InventoryItemView[],
-  ): InventoryItemView | null {
+  ): InventoryItemView | undefined {
 
     return items.find(i => {
       if (i.uid === item.uid) return false;
@@ -187,7 +204,7 @@ export class InventoryDragDropService {
         y + item.height > i.y;
 
       return isOverlapping;
-    }) ?? null;
+    }) ?? undefined;
   }
 
   private getStableCell(value: number, cellSize: number): number {

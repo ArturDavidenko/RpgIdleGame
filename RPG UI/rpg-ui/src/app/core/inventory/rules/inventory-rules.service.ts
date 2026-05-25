@@ -46,4 +46,27 @@ export class InventoryRulesService {
 
     return true;
   }
+
+
+  canMergeItems(
+    source: InventoryItemView,
+    target?: InventoryItemView
+  ): boolean {
+
+    if (!target) return false;
+
+    if (source.uid === target.uid) return false;
+
+    if (source.definitionId !== target.definitionId) return false;
+
+    if (!source.stackable) return false;
+
+    const targetQuantity = target.quantity ?? 1;
+
+    if (targetQuantity >= (target.maxStack ?? 1)) {
+      return false;
+    }
+
+    return true;
+  }
 }

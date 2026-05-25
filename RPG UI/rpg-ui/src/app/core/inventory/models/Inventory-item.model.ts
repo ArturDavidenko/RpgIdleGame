@@ -42,6 +42,8 @@ export interface InventoryItem {
 export interface InventoryItemView {
   uid: string;
 
+  definitionId: string;
+
   x: number;
   y: number;
 
@@ -56,6 +58,7 @@ export interface InventoryItemView {
 
   quantity?: number;
   stackable: boolean;
+  maxStack?: number;
 }
 
 export const ITEM_DEFINITIONS: ItemDefinition[] = [

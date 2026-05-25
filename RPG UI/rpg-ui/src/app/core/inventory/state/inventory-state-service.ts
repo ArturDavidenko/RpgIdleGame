@@ -116,6 +116,7 @@ function mapToView(
 
   return {
     uid: item.id,
+    definitionId: item.definitionId,
     x: item.x,
     y: item.y,
 
@@ -129,7 +130,8 @@ function mapToView(
     rarity: item.rarity,
 
     quantity: item.quantity,
-    stackable: def.stackable
+    stackable: def.stackable,
+    maxStack: def.maxStack
   };
 }
 
