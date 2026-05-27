@@ -135,7 +135,20 @@ export class StashInventoryComponent implements OnInit {
   }
   
   onSplitConfirm(amount: number) {
-    this.inventoryService.splitItem(this.selectedItem.uid, amount);
+    const inventoryId = this.inventoryState.getInventoryId();
+    
+    const itemDefinitionId =
+      this.inventoryState.getItemDefinicitonId(this.selectedItem.uid);
+
+    const command = InventoryCommandFactory.split(
+      inventoryId,
+      itemDefinitionId,
+      this.selectedItem.uid,
+      amount
+    );
+
+    this.inventoryFacade.InventoryAction(command);
+
     this.splitVisible = false;
   }
 

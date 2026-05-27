@@ -54,18 +54,52 @@ export class InventoryFacade {
     });
   }
 
-  InventoryAction(command: InventoryCommandRequest, dropResult: DragDropResult) {
+  InventoryAction(command: InventoryCommandRequest, dropResult?: DragDropResult) {
     const snapshot = structuredClone(this.state.getInventory());
 
-    this.inventoryService.handleDrop(dropResult);
+    try {
 
-    this.api.InventoryActionCommand(command).subscribe({
-      next: () => {
-      
-      },
-      error: (err) => {
-        this.state.setInventory(snapshot);
+      switch (command.commandType) {
+
+        case 'MoveItem':
+        case 'MergeItem':
+
+          if (!dropResult) {
+            console.warn('DropResult is required');
+            return;
+          }
+
+          this.inventoryService.handleDrop(dropResult);
+          break;
+
+        case 'SplitItem':
+
+          this.inventoryService.splitItem(
+            command.itemId,
+            command.split.quantity
+          );
+
+          break;
+
+        default:
+          console.warn('Unknown inventory command');
+          return;
       }
-    });
+
+      this.api.InventoryActionCommand(command).subscribe({
+        next: () => {
+
+        },
+        error: () => {
+          this.state.setInventory(snapshot);
+        }
+      });
+
+    } catch (e) {
+
+      console.error(e);
+
+      this.state.setInventory(snapshot);
+    }
   }
 }
