@@ -5,7 +5,6 @@ import { InventoryItemView } from '../../../core/inventory/models/Inventory-item
 import { NgFor } from '@angular/common';
 import { InventoryItemComponent } from '../inventory-item-component/inventory-item-component';
 import { InventoryDragContext, InventoryDragDropService } from '../../../core/inventory/interactions/inventory-drag-drop.service';
-import { InventoryService } from '../../../core/inventory/domain/inventory.service';
 import { SplitModalComponent } from '../split-modal-component/split-modal.component';
 import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
 import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
@@ -33,7 +32,6 @@ export class StashInventoryComponent implements OnInit {
   constructor(
     private inventoryState: InventoryStateService,
     public dragDrop: InventoryDragDropService,
-    private inventoryService: InventoryService,
     private inventoryFacade: InventoryFacade
   ) {}
 

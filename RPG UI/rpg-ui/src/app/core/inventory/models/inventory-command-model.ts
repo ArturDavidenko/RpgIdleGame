@@ -1,4 +1,4 @@
-export type InventoryCommandType = 'MoveItem' | 'SplitItem' | 'MergeItem';
+export type InventoryCommandType = 'MoveItem' | 'SplitItem' | 'MergeItem' | 'DropItem';
 
 export interface MovePayload {
   toX: number;
@@ -11,6 +11,10 @@ export interface SplitPayload {
 
 export interface MergePayload {
   targetItemId: string;
+}
+
+export interface DropPayload {
+  ItemId: string;
 }
 
 export interface InventoryCommandBase {
@@ -36,6 +40,12 @@ export type InventoryCommandRequest =
   | (InventoryCommandBase & {
       commandType: 'MergeItem';
       merge: MergePayload;
+      move?: never;
+      split?: never;
+    })
+    | (InventoryCommandBase & {
+      commandType: 'DropItem';
+      drop: DropPayload;
       move?: never;
       split?: never;
     });

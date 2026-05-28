@@ -30,4 +30,15 @@ export class InventoryCommandFactory {
       split: { quantity }
     };
   }
+
+  static drop(inventoryId: string, definitionId: string, itemId: string): InventoryCommandRequest {
+    return {
+      inventoryId,
+      definitionId,
+      commandType: 'DropItem',
+      itemId,
+      drop: { ItemId: itemId }
+    };
+  }
+  
 }

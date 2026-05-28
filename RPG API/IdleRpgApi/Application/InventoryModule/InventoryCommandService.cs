@@ -2,8 +2,6 @@
 using IdleRpgApi.Application.GameData;
 using IdleRpgApi.Application.InventoryModule.Commands;
 using IdleRpgApi.Application.InventoryModule.DTOs;
-using IdleRpgApi.Application.Mapping;
-using IdleRpgApi.Domain.Entities;
 using IdleRpgApi.Domain.Enums;
 using IdleRpgApi.Domain.Services;
 using IdleRpgApi.Infrastructure.Repositories.Interfaces;

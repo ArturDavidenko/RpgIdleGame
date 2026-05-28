@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
 import { NgIf } from '@angular/common';
 import { InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
 import { InventoryStateService } from '../../../core/inventory/state/inventory-state-service';
+import { InventoryCommandFactory } from '../../../core/inventory/mapper/InventoryCommandFactory';
+import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -19,7 +21,8 @@ export class ContextMenuComponent {
 
   constructor(
     private inventoryState: InventoryStateService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private inventoryFacade: InventoryFacade
   ) {}
 
   @HostListener('document:mousedown', ['$event'])
@@ -35,7 +38,13 @@ export class ContextMenuComponent {
   }
 
   onDelete() {
-    this.inventoryState.removeItem(this.item.uid);
+    const command = InventoryCommandFactory.drop(
+      this.inventoryState.getInventoryId(),
+      this.item.definitionId,
+      this.item.uid
+    );
+
+    this.inventoryFacade.InventoryAction(command);
     this.close.emit();
   }
 

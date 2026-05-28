@@ -81,6 +81,11 @@ export class InventoryFacade {
 
           break;
 
+
+        case 'DropItem':
+            this.state.removeItem(command.drop.ItemId);
+          break;
+
         default:
           console.warn('Unknown inventory command');
           return;
