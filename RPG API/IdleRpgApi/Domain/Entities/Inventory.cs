@@ -11,6 +11,10 @@ namespace IdleRpgApi.Domain.Entities
 
         public InventoryType Type { get; private set; }
 
+        public int Width { get; private set; }
+
+        public int Height { get; private set; }
+
         public DateTime CreatedAt { get; private set; }
 
         private readonly List<InventoryItem> _items = new();
@@ -18,11 +22,19 @@ namespace IdleRpgApi.Domain.Entities
 
         private Inventory() { }
 
-        public Inventory(Guid userId, InventoryType type)
+        public Inventory(Guid userId, InventoryType type, int width, int height)
         {
+            if (width <= 0)
+                throw new DomainException("Width must be greater than zero");
+
+            if (height <= 0)
+                throw new DomainException("Height must be greater than zero");
+
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
             Type = type;
+            Width = width;
+            Height = height;
         }
 
         public void ClearItems()

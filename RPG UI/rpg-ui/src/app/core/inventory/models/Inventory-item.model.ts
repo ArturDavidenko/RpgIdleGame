@@ -5,9 +5,16 @@ export enum ItemRarity {
   Unique = 'Unique'
 }
 
+export interface InventoryGridConfig {
+  readonly cols: number;
+  readonly rows: number;
+}
+
 export interface Inventory {
   id: string;
   type?: string;
+  width: number;
+  height: number;
   items: InventoryItem[];
 }
 
@@ -207,5 +214,8 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
 
 export const MOCK_INVENTORY: Inventory = {
   id: 'stash',
+  type: 'stash',
+  width: 15,
+  height: 10,
   items: MOCK_INVENTORY_ITEMS
 };

@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GridCell, InventoryGridComponent } from '../inventory-grid-component/inventory-grid-component';
 import { InventoryStateService } from '../../../core/inventory/state/inventory-state-service';
-import { InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
+import { InventoryGridConfig, InventoryItemView } from '../../../core/inventory/models/Inventory-item.model';
 import { NgFor } from '@angular/common';
 import { InventoryItemComponent } from '../inventory-item-component/inventory-item-component';
 import { InventoryDragContext, InventoryDragDropService } from '../../../core/inventory/interactions/inventory-drag-drop.service';
@@ -9,6 +9,7 @@ import { SplitModalComponent } from '../split-modal-component/split-modal.compon
 import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
 import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
 import { InventoryCommandFactory } from '../../../core/inventory/mapper/InventoryCommandFactory';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stash-inventory-component',
@@ -19,32 +20,36 @@ import { InventoryCommandFactory } from '../../../core/inventory/mapper/Inventor
 export class StashInventoryComponent implements OnInit {
   items: InventoryItemView[] = [];
 
-  cols = 15;
-  rows = 10;
   readonly cellSize = 32;
 
   splitVisible = false;
   selectedItem!: InventoryItemView;
 
+  gridConfig!: InventoryGridConfig;
 
   @ViewChild('gridRef', { static: true }) gridElement!: ElementRef;
-
+ 
   constructor(
     private inventoryState: InventoryStateService,
     public dragDrop: InventoryDragDropService,
     private inventoryFacade: InventoryFacade
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.inventoryState.itemsView$.subscribe(items => {
       this.items = items;
     });
+
+    this.inventoryState.gridConfig$
+      .subscribe(cfg => {
+        this.gridConfig = cfg;
+      });
   }
 
   get context(): InventoryDragContext {
     return {
-      cols: this.cols,
-      rows: this.rows,
+      cols: this.gridConfig.cols,
+      rows: this.gridConfig.rows,
       cellSize: this.cellSize,
     };
   }

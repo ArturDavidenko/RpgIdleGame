@@ -11,6 +11,8 @@ namespace IdleRpgApi.Application.Mapping
             {
                 Id = inventory.Id,
                 Type = inventory.Type.ToString(),
+                Width = inventory.Width,
+                Height = inventory.Height,
                 Items = inventory.Items.Select(i => new InventoryItemDto
                 {
                     Id = i.Id,

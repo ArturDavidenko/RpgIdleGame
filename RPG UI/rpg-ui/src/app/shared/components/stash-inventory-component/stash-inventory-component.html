@@ -1,7 +1,7 @@
 <div class="inventory-container" #gridRef>
     <app-inventory-grid-component 
-    [cols]="cols" 
-    [rows]="rows"
+    [cols]="gridConfig.cols" 
+    [rows]="gridConfig.rows"
     [hoverCell]="dragDrop.hoverCell"
     [hoverValid]="dragDrop.hoverValid"
     [draggedItem]="dragDrop.draggedItem"

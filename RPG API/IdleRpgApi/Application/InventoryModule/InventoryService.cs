@@ -35,7 +35,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             if (inventory == null)
             {
-                inventory = new Inventory(userId, InventoryType.Stash);
+                inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
                 await _inventoryRepository.SaveAsync(inventory);
             }
 
@@ -101,7 +101,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
             if (inventory == null)
             {
-                inventory = new Inventory(userId, InventoryType.Stash);
+                inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
 
                 await _inventoryRepository.SaveAsync(inventory);
             }
@@ -172,7 +172,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 .GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
             if (inventory == null)
-                inventory = new Inventory(userId, InventoryType.Stash);
+                inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
 
             var dtoItemIds = dto.Items
                 .Where(i => i.Id != Guid.Empty)

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Inventory, InventoryItem, InventoryItemView, ItemDefinition } from '../models/Inventory-item.model';
+import { Inventory, InventoryGridConfig, InventoryItem, InventoryItemView, ItemDefinition } from '../models/Inventory-item.model';
 import { BehaviorSubject } from 'rxjs';
 import { combineLatest, map } from 'rxjs';
 
@@ -10,8 +10,11 @@ export class InventoryStateService {
   private inventorySubject = new BehaviorSubject<Inventory>({
     id: '',
     items: [],
-    type: ''
+    type: '',
+    width: 15,
+    height: 10
   });
+
   private definitionsSubject = new BehaviorSubject<ItemDefinition[]>([]);
   
   inventory$ = this.inventorySubject.asObservable();
@@ -23,15 +26,20 @@ export class InventoryStateService {
     )
   );
 
+  gridConfig$ = this.inventory$.pipe(
+    map(inv => ({
+      cols: inv.width,
+      rows: inv.height
+    }))
+  );
+
   getItems(): InventoryItem[] {
     return this.inventorySubject.getValue().items;
   }
 
-  
   getItemById(itemId: string): InventoryItem | null {
     return this.inventorySubject.getValue().items.find(i => i.id === itemId) ?? null;
   }
-
 
   getInventory(): Inventory {
     return this.inventorySubject.getValue();
