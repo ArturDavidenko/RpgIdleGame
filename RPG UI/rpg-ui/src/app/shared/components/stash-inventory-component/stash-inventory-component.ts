@@ -9,7 +9,6 @@ import { SplitModalComponent } from '../split-modal-component/split-modal.compon
 import { ItemTooltipComponent } from '../item-tooltip-component/item-tooltip-component';
 import { InventoryFacade } from '../../../core/inventory/facade/inventory-facade.service';
 import { InventoryCommandFactory } from '../../../core/inventory/mapper/InventoryCommandFactory';
-import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stash-inventory-component',

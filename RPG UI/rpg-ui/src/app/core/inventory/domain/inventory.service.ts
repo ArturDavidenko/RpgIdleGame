@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DragDropResult } from '../interactions/inventory-drag-drop.service';
 import { InventoryStateService } from '../state/inventory-state-service';
 import { MergeHandler } from '../handlers/mergeHandler';
-import { InventoryItem, ItemDefinition } from '../models/Inventory-item.model';
+import { InventoryGridConfig, InventoryItem, ItemDefinition } from '../models/Inventory-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,15 @@ export class InventoryService {
   constructor(private InventoryStateService: InventoryStateService,
     private mergeHandler: MergeHandler
   ) {}
+
+  private get gridConfig(): InventoryGridConfig {
+    const inventory = this.InventoryStateService.getInventory();
+
+    return {
+        cols: inventory.width,
+        rows: inventory.height
+    };
+  }
 
  handleDrop(result: DragDropResult) {
     if (result.type === 'invalid') return;
@@ -87,9 +96,8 @@ export class InventoryService {
     newItem: InventoryItem
   ): InventoryItem[] {
 
-    // HADR CODE FOR GRID SIZE, SHOULD BE DYNAMIC BASED ON INVENTORY TYPE
-    const GRID_WIDTH = 15; 
-    const GRID_HEIGHT = 10;
+    const GRID_WIDTH = this.gridConfig.cols; 
+    const GRID_HEIGHT = this.gridConfig.rows;
 
     const definitions = this.InventoryStateService.getDefinitions();
 
