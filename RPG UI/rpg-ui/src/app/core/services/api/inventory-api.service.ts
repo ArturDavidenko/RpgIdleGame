@@ -21,14 +21,7 @@ export class InventoryApiService {
       `${environment.apiBaseUrl}/GameData/items-definitions`
     );
   }
-
-  saveInventory(inventory: Inventory) {
-    return this.http.post<Inventory>(
-      `${environment.apiBaseUrl}/api/Inventory`,
-      inventory
-    );
-  }
-
+  
   generateRandomItem() {
     return this.http.post<InventoryItem>(
       `${environment.apiBaseUrl}/api/Inventory/random-item`,

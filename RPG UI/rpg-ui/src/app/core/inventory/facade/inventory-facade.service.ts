@@ -28,17 +28,6 @@ export class InventoryFacade {
     });
   }
 
-  saveInventory() {
-    const inventory = this.state.getInventory();
-
-    console.log('Try Saving inventory:', inventory);
- 
-    this.api.saveInventory(inventory).subscribe({
-        next: () => alert('Inventory saved successfully'),
-        error: (err) => alert('Save failed')
-    });
-  }
-
   generateRandomItem() {
     this.api.generateRandomItem().subscribe({
       next: (item) => {

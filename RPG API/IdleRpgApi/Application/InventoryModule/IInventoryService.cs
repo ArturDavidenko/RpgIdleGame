@@ -8,8 +8,6 @@ public interface IInventoryService
 {
     Task<InventoryDto> GetStashInventoryAsync(Guid userId);
 
-    Task SaveAsync(Guid userId, InventoryDto dto);
-
     Task<InventoryItemDto> AddRandomItemAsync(Guid userId);
 
     Task<InventoryDto> SplitItemAsync(InventoryCommandDto command, Inventory inventory);

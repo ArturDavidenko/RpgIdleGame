@@ -53,10 +53,6 @@ export class StashInventoryComponent implements OnInit {
     };
   }
 
-  onSave() {
-    this.inventoryFacade.saveInventory();
-  }
-
   onGenerateItem() {
    this.inventoryFacade.generateRandomItem();
   }

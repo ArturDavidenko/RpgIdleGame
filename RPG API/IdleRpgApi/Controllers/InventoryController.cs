@@ -31,16 +31,6 @@ namespace IdleRpgApi.Controllers
             return Ok(inventory);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Save([FromBody] InventoryDto dto)
-        {
-            var userId = User.GetUserId();
-
-            await _inventoryService.SaveAsync(userId, dto);
-
-            return Ok();
-        }
-
         [HttpPost("command")]
         public async Task<IActionResult> ExecuteCommand([FromBody] InventoryCommandDto command)
         {

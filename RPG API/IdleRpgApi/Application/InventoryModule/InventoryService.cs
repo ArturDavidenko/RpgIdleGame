@@ -166,59 +166,6 @@ namespace IdleRpgApi.Application.InventoryModule
             return inventory.ToDto();
         }
 
-        public async Task SaveAsync(Guid userId, InventoryDto dto)
-        {
-            var inventory = await _inventoryRepository
-                .GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
-
-            if (inventory == null)
-                inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
-
-            var dtoItemIds = dto.Items
-                .Where(i => i.Id != Guid.Empty)
-                .Select(i => i.Id)
-                .ToHashSet();
-
-            var itemsToRemove = inventory.Items
-                .Where(i => !dtoItemIds.Contains(i.Id))
-                .ToList();
-
-            foreach (var item in itemsToRemove)
-            {
-                inventory.RemoveItem(item.Id);
-            }
-
-            foreach (var itemDto in dto.Items)
-            {
-                var existingItem = inventory.Items
-                    .FirstOrDefault(i => i.Id == itemDto.Id);
-
-                if (existingItem != null)
-                {
-                    existingItem.Update(
-                        itemDto.X,
-                        itemDto.Y,
-                        itemDto.Quantity.Value,
-                        itemDto.Rarity
-                    );
-                }
-                else
-                {
-                    inventory.AddItem(
-                        itemDto.DefinitionId,
-                        itemDto.X,
-                        itemDto.Y,
-                        itemDto.Quantity,
-                        itemDto.Rarity
-                    );
-                }
-            }
-
-            await _inventoryRepository.SaveAsync(inventory);
-
-            _logger.LogInformation("Inventory synced for user {UserId}", userId);
-        }
-
         public async Task<InventoryDto> SplitItemAsync(InventoryCommandDto command, Inventory inventory)
         {
             var item = inventory.GetItem(command.ItemId);
