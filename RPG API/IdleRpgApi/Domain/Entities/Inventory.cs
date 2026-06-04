@@ -52,7 +52,7 @@ namespace IdleRpgApi.Domain.Entities
             if (_items.Any(i => i.X == x && i.Y == y))
                 throw new DomainException("Slot already occupied");
 
-            var item = new InventoryItem(Id, definitionId, x, y, quantity, rarity);
+            var item = new InventoryItem(Guid.NewGuid(), Id, definitionId, x, y, quantity, rarity);
 
             _items.Add(item);
 

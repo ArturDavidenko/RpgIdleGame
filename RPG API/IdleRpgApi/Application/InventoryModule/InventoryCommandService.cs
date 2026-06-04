@@ -31,6 +31,8 @@ namespace IdleRpgApi.Application.InventoryModule
             var inventory = await _inventoryRepository
                 .GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
+            Guid? newItemId = null;
+
             if (inventory == null)
             {
                 _logger.LogError(
@@ -65,7 +67,7 @@ namespace IdleRpgApi.Application.InventoryModule
 
                 case InventoryCommandType.SplitItem:
                     {
-                        await _inventoryService.SplitItemAsync(command, inventory);
+                        newItemId = await _inventoryService.SplitItemAsync(command, inventory);
                         _logger.LogInformation(
                             "Item {ItemId} split in inventory for user {UserId}",
                             command.ItemId,
@@ -96,7 +98,8 @@ namespace IdleRpgApi.Application.InventoryModule
 
             return new InventoryActionResponseDto
             {
-                Success = true
+                Success = true,
+                NewItemId = newItemId
             };
         }
     }

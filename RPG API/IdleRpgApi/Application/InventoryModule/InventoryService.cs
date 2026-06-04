@@ -111,7 +111,7 @@ namespace IdleRpgApi.Application.InventoryModule
             return inventory.ToDto();
         }
 
-        public async Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command, Inventory inventory)
+        public async Task MergeItemsAsync(InventoryCommandDto command, Inventory inventory)
         {
             var definition = _itemDefinitionRepository.Get(command.DefinitionId);
 
@@ -121,10 +121,9 @@ namespace IdleRpgApi.Application.InventoryModule
                 definition.MaxStack.Value
             );
 
-            return inventory.ToDto();
         }
 
-        public async Task<InventoryDto> MoveItemAsync(InventoryCommandDto command, Inventory inventory)
+        public async Task MoveItemAsync(InventoryCommandDto command, Inventory inventory)
         {
             if (command.Move is null)
                 throw new InvalidInventoryCommandException("MoveItem requires move payload");
@@ -162,11 +161,9 @@ namespace IdleRpgApi.Application.InventoryModule
                 command.Move.ToX,
                 command.Move.ToY
             );
-
-            return inventory.ToDto();
         }
 
-        public async Task<InventoryDto> SplitItemAsync(InventoryCommandDto command, Inventory inventory)
+        public async Task<Guid> SplitItemAsync(InventoryCommandDto command, Inventory inventory)
         {
             var item = inventory.GetItem(command.ItemId);
 
@@ -193,7 +190,7 @@ namespace IdleRpgApi.Application.InventoryModule
             if (position == null)
                 throw new InventoryFullException();
 
-            inventory.AddItem(
+            var newItem = inventory.AddItem(
                 result.DefinitionId,
                 position.Value.x,
                 position.Value.y,
@@ -201,7 +198,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 result.Rarity
             );
 
-            return inventory.ToDto();
+            return newItem.Id;
         }
     }
 }

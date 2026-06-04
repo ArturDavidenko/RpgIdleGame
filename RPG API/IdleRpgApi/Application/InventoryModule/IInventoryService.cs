@@ -10,9 +10,9 @@ public interface IInventoryService
 
     Task<InventoryItemDto> AddRandomItemAsync(Guid userId);
 
-    Task<InventoryDto> SplitItemAsync(InventoryCommandDto command, Inventory inventory);
+    Task<Guid> SplitItemAsync(InventoryCommandDto command, Inventory inventory);
 
-    Task<InventoryDto> MergeItemsAsync(InventoryCommandDto command, Inventory inventory);
+    Task MergeItemsAsync(InventoryCommandDto command, Inventory inventory);
 
-    Task<InventoryDto> MoveItemAsync(InventoryCommandDto command, Inventory inventory);
+    Task MoveItemAsync(InventoryCommandDto command, Inventory inventory);
 }
