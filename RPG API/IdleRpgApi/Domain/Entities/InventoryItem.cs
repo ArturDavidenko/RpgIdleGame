@@ -20,10 +20,9 @@ namespace IdleRpgApi.Domain.Entities
 
         private InventoryItem() { }
 
-        public InventoryItem(Guid id, Guid inventoryId, string definitionId, int x, int y, int? quantity = null,
+        public InventoryItem(Guid inventoryId, string definitionId, int x, int y, int? quantity = null,
         string? rarity = null)
-        {
-            Id = id;
+        { 
             InventoryId = inventoryId;
             DefinitionId = definitionId;
             X = x;

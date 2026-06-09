@@ -31,6 +31,7 @@ namespace IdleRpgApi.Infrastructure.Repositories
 
         public async Task SaveAsync(Inventory inventory)
         {
+            _context.Update(inventory);
             await _context.SaveChangesAsync();
         }
     }
