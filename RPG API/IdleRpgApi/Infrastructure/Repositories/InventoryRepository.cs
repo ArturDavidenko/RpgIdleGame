@@ -29,10 +29,14 @@ namespace IdleRpgApi.Infrastructure.Repositories
                 .SingleOrDefaultAsync(i => i.UserId == userId && i.Type == type);
         }
 
-        public async Task SaveAsync(Inventory inventory)
+        public async Task SaveChangesAsync()
         {
-            _context.Update(inventory);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddInventoryAsync(Inventory inventory)
+        {
+           await _context.Inventories.AddAsync(inventory);
         }
     }
 }

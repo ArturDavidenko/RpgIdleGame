@@ -89,7 +89,7 @@ namespace IdleRpgApi.Application.InventoryModule
                     throw new InvalidInventoryCommandException($"Command {command.CommandType} is not supported");
             }
 
-            await _inventoryRepository.SaveAsync(inventory);
+            await _inventoryRepository.SaveChangesAsync();
 
             _logger.LogInformation(
                 "Inventory command {CommandType} executed for user {UserId}",

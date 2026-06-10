@@ -33,12 +33,6 @@ namespace IdleRpgApi.Application.InventoryModule
         {
             var inventory = await _inventoryRepository.GetByUserIdAndTypeAsync(userId, InventoryType.Stash);
 
-            if (inventory == null)
-            {
-                inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
-                await _inventoryRepository.SaveAsync(inventory);
-            }
-
             var definitions = _itemDefinitionRepository.GetAll().ToList();
 
             var randomDef = definitions[Random.Shared.Next(definitions.Count)];
@@ -75,7 +69,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 position.Value.y
             );
 
-            await _inventoryRepository.SaveAsync(inventory);
+            await _inventoryRepository.SaveChangesAsync();
 
             _logger.LogInformation(
                 "Item created for user {UserId}, item {ItemId}, def {DefinitionId}",
@@ -102,8 +96,8 @@ namespace IdleRpgApi.Application.InventoryModule
             if (inventory == null)
             {
                 inventory = new Inventory(userId, InventoryType.Stash, 15, 10);
-
-                await _inventoryRepository.SaveAsync(inventory);
+                await _inventoryRepository.AddInventoryAsync(inventory);
+                await _inventoryRepository.SaveChangesAsync();
             }
 
             _logger.LogInformation("User {UserId} retrieved stash inventory", userId);

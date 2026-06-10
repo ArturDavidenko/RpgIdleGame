@@ -8,6 +8,8 @@ namespace IdleRpgApi.Infrastructure.Repositories.Interfaces
         Task<Inventory?> GetByUserIdAndTypeAsync(Guid userId, InventoryType type);
 
         Task<Inventory> GetByIdAsync(Guid inventoryId);
-        Task SaveAsync(Inventory inventory);
+        Task SaveChangesAsync();
+
+        Task AddInventoryAsync(Inventory inventory);
     }
 }
