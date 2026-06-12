@@ -7,7 +7,7 @@ The core idea is to build a RNG-driven RPG system, where gameplay is heavily bas
 The player focuses on strategic decisions, while the game resolves outcomes automatically.  
 
 ## Current Version
-# v0.1 — MVP (Inventory System Prototype)  
+### v0.1 — MVP (Inventory System Prototype)  
 
 Current implementation focuses on the Inventory System prototype, which includes:  
 
