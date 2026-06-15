@@ -11,5 +11,7 @@ namespace IdleRpgApi.Infrastructure.Repositories.Interfaces
         Task SaveChangesAsync();
 
         Task AddInventoryAsync(Inventory inventory);
+
+        Task AddItemToInventoryAsync(InventoryItem item);
     }
 }

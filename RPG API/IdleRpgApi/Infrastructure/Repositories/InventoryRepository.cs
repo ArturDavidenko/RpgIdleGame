@@ -38,5 +38,11 @@ namespace IdleRpgApi.Infrastructure.Repositories
         {
            await _context.Inventories.AddAsync(inventory);
         }
+
+        public async Task AddItemToInventoryAsync(InventoryItem item)
+        {
+            await _context.InventoryItems.AddAsync(item);
+        }
+
     }
 }

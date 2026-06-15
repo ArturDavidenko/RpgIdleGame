@@ -69,6 +69,7 @@ namespace IdleRpgApi.Application.InventoryModule
                 position.Value.y
             );
 
+            await _inventoryRepository.AddItemToInventoryAsync(item);
             await _inventoryRepository.SaveChangesAsync();
 
             _logger.LogInformation(
@@ -191,6 +192,8 @@ namespace IdleRpgApi.Application.InventoryModule
                 result.Quantity,
                 result.Rarity
             );
+
+            await _inventoryRepository.AddItemToInventoryAsync(newItem);
 
             return newItem.Id;
         }

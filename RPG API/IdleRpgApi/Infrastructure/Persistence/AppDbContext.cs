@@ -12,6 +12,7 @@ namespace IdleRpgApi.Infrastructure.Persistence
 
         public DbSet<User> Users { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+
         public DbSet<InventoryItem> InventoryItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,11 +45,13 @@ namespace IdleRpgApi.Infrastructure.Persistence
             {
                 entity.HasKey(i => i.Id);
 
-                entity.Property(i => i.UserId)
-                    .IsRequired();
+                entity.HasMany(i => i.Items)
+                    .WithOne(i => i.Inventory)
+                    .HasForeignKey(i => i.InventoryId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                entity.Property(i => i.CreatedAt)
-                    .IsRequired();
+                entity.Property(i => i.UserId).IsRequired();
+                entity.Property(i => i.CreatedAt).IsRequired();
 
                 entity.HasOne(i => i.User)
                     .WithOne(u => u.Inventory)
@@ -66,13 +69,11 @@ namespace IdleRpgApi.Infrastructure.Persistence
                 entity.Property(ii => ii.X).IsRequired();
                 entity.Property(ii => ii.Y).IsRequired();
 
-                entity.Property(ii => ii.Quantity);
-                entity.Property(ii => ii.Rarity)
-                    .HasMaxLength(50);
+                entity.Property(ii => ii.Quantity).IsRequired();
 
-                entity.HasOne(ii => ii.Inventory)
-                    .WithMany(i => i.Items)
-                    .HasForeignKey(ii => ii.InventoryId);
+                entity.Property(ii => ii.Rarity)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
         }
     }

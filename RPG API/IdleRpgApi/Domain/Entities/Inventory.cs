@@ -30,6 +30,7 @@ namespace IdleRpgApi.Domain.Entities
             if (height <= 0)
                 throw new DomainException("Height must be greater than zero");
 
+            Id = Guid.NewGuid();
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
             Type = type;

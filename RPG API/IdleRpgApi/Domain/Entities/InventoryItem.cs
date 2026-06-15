@@ -23,6 +23,7 @@ namespace IdleRpgApi.Domain.Entities
         public InventoryItem(Guid inventoryId, string definitionId, int x, int y, int? quantity = null,
         string? rarity = null)
         { 
+            Id = Guid.NewGuid();
             InventoryId = inventoryId;
             DefinitionId = definitionId;
             X = x;
