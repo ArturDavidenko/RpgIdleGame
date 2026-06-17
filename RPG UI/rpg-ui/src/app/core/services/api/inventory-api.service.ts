@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Inventory, InventoryItem, ItemDefinition } from '../../inventory/models/Inventory-item.model';
+import { Inventory, InventoryCommandResponseDto, InventoryItem, ItemDefinition } from '../../inventory/models/Inventory-item.model';
 import { environment } from '../../../environments/environment';
 import { InventoryCommandRequest } from '../../inventory/models/inventory-command-model';
 
@@ -30,7 +30,7 @@ export class InventoryApiService {
   }
 
   InventoryActionCommand(command: InventoryCommandRequest) {
-    return this.http.post<Inventory>(
+    return this.http.post<InventoryCommandResponseDto>(
       `${environment.apiBaseUrl}/api/Inventory/command`, command
     );
   }

@@ -89,6 +89,10 @@ export class InventoryService {
 
     const finalItems = this.placeInFreeSlot(updatedItems, newItem);
 
+    if (!finalItems) {
+      return;
+    }
+
     this.InventoryStateService.updateItems(finalItems);
 
     return tempId;

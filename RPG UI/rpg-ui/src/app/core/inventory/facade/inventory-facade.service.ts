@@ -89,7 +89,7 @@ export class InventoryFacade {
           ) {
             this.state.replaceItemId(
               tempId,
-              response.id
+              response.newItemId!
             );
           }
         },

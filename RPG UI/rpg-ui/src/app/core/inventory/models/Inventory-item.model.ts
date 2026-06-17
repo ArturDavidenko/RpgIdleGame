@@ -5,6 +5,13 @@ export enum ItemRarity {
   Unique = 'Unique'
 }
 
+
+export interface InventoryCommandResponseDto {
+  success: boolean;
+  error: string | null;
+  newItemId?: string;
+}
+
 export interface InventoryGridConfig {
   readonly cols: number;
   readonly rows: number;
