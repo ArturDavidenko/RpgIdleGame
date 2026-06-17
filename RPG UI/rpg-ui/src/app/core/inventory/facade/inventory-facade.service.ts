@@ -45,6 +45,7 @@ export class InventoryFacade {
 
   InventoryAction(command: InventoryCommandRequest, dropResult?: DragDropResult) {
     const snapshot = structuredClone(this.state.getInventory());
+    let tempId: string | undefined;
 
     try {
 
@@ -63,7 +64,7 @@ export class InventoryFacade {
 
         case 'SplitItem':
 
-          this.inventoryService.splitItem(
+          tempId = this.inventoryService.splitItem(
             command.itemId,
             command.split.quantity
           );
@@ -81,8 +82,16 @@ export class InventoryFacade {
       }
 
       this.api.InventoryActionCommand(command).subscribe({
-        next: () => {
-
+        next: (response) => {
+          if (
+          command.commandType === 'SplitItem' &&
+          tempId
+          ) {
+            this.state.replaceItemId(
+              tempId,
+              response.id
+            );
+          }
         },
         error: () => {
           this.state.setInventory(snapshot);

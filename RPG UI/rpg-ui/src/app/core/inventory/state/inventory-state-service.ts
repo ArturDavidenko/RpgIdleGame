@@ -53,6 +53,18 @@ export class InventoryStateService {
     return this.inventorySubject.getValue().id;
   }
 
+  replaceItemId(tempId: string, serverId: string) {
+    const items = this.getItems();
+
+    this.updateItems(
+      items.map(i =>
+        i.id === tempId
+          ? { ...i, id: serverId }
+          : i
+      )
+    );
+  }
+
   //TODO: Remove that later to another layer
   getItemDefinicitonId(itemId: string) : string{
     const item = this.inventorySubject.getValue().items.find(i => i.id === itemId);

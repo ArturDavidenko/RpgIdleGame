@@ -57,7 +57,7 @@ export class InventoryService {
     this.InventoryStateService.updateItems(updated);
   }
 
-  splitItem(itemId: string, amount: number) {
+  splitItem(itemId: string, amount: number): string | undefined {
     const items = this.InventoryStateService.getItems();
 
     const target = items.find(i => i.id === itemId);
@@ -66,10 +66,11 @@ export class InventoryService {
       return;
     }
 
+    const tempId = crypto.randomUUID()
     const remaining = target.quantity - amount;
 
     const newItem: InventoryItem = {
-      id: crypto.randomUUID(),
+      id: tempId,
       definitionId: target.definitionId,
       x: 0,
       y: 0,
@@ -89,6 +90,8 @@ export class InventoryService {
     const finalItems = this.placeInFreeSlot(updatedItems, newItem);
 
     this.InventoryStateService.updateItems(finalItems);
+
+    return tempId;
   }
 
   private placeInFreeSlot(
