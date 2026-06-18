@@ -15,6 +15,10 @@ export class InventoryRulesService {
     rows: number
   ): boolean {
 
+    if (item.x === x && item.y === y) {
+        return false;
+      }
+
     if (
       x < 0 ||
       y < 0 ||

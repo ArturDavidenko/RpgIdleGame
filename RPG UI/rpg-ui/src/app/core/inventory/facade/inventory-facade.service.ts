@@ -4,11 +4,13 @@ import { InventoryStateService } from "../state/inventory-state-service";
 import { InventoryCommandRequest } from "../models/inventory-command-model";
 import { DragDropResult } from "../interactions/inventory-drag-drop.service";
 import { InventoryService } from "../domain/inventory.service";
+import { finalize } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryFacade {
+  private inventoryActionInProgress = false;
 
   constructor(  
     private api: InventoryApiService,
@@ -44,6 +46,11 @@ export class InventoryFacade {
   }
 
   InventoryAction(command: InventoryCommandRequest, dropResult?: DragDropResult) {
+
+    if (this.inventoryActionInProgress) {
+      return;
+    }
+
     const snapshot = structuredClone(this.state.getInventory());
     let tempId: string | undefined;
 
@@ -81,7 +88,13 @@ export class InventoryFacade {
           return;
       }
 
-      this.api.InventoryActionCommand(command).subscribe({
+      this.inventoryActionInProgress = true;
+
+      this.api.InventoryActionCommand(command).pipe(
+          finalize(() => {
+            this.inventoryActionInProgress = false;
+          })
+        ).subscribe({
         next: (response) => {
           if (
           command.commandType === 'SplitItem' &&
@@ -103,6 +116,7 @@ export class InventoryFacade {
       console.error(e);
 
       this.state.setInventory(snapshot);
+      this.inventoryActionInProgress = false;
     }
   }
 }
