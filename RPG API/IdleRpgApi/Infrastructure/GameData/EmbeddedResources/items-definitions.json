@@ -1,46 +1,101 @@
 [
   {
-    "id": "pickaxe",
-    "name": "Pickaxe",
-    "description": "IDK just a pickaxe",
-    "type": "weapon",
+    "id": "Hand_Of_Wisdom_And_Action",
+    "name": "Hand Of Wisdom And Action",
+    "description": "She thinks and we act. She acts and we think. Fragments of the whole that washes clean the skies.",
+    "type": "gloves",
     "width": 2,
-    "height": 3,
-    "textureUrl": "assets/InventoryImages/pickaxe.png",
+    "height": 2,
+    "textureUrl": "assets/InventoryImages/Hand-Of-Wisdom-And-Action.webp",
     "stackable": false,
     "maxStack": null
-  },
-  {
-    "id": "magic_wand",
-    "name": "Magic Wand",
-    "description": "A basic magic wand",
-    "type": "weapon",
-    "width": 2,
-    "height": 5,
-    "textureUrl": "assets/InventoryImages/magic-wand.png",
-    "stackable": false,
-    "maxStack": null
-  },
-  {
-    "id": "scream_orb",
-    "name": "Scream orb",
-    "description": "Unpredictable chance item",
-    "type": "currency",
-    "width": 1,
-    "height": 1,
-    "textureUrl": "assets/InventoryImages/scream-orb.png",
-    "stackable": true,
-    "maxStack": 20
   },
   {
     "id": "divine_orb",
     "name": "Divine orb",
-    "description": "Chance item stats value",
+    "description": "Randomises the numeric values of modifiers on an item",
     "type": "currency",
     "width": 1,
     "height": 1,
-    "textureUrl": "assets/InventoryImages/divine-orb.png",
+    "textureUrl": "assets/InventoryImages/Divine-orb.webp",
     "stackable": true,
     "maxStack": 10
+  },
+  {
+    "id": "vaal_orb",
+    "name": "Vaal orb",
+    "description": "Modifies an item unpredictably and Corrupts it",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Vaal-orb.webp",
+    "stackable": true,
+    "maxStack": 20
+  },
+  {
+    "id": "transmutation_orb",
+    "name": "Orb of Transmutation",
+    "description": "Upgrades a Normal item to a Magic item with 1 modifier",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Transmutation-orb.webp",
+    "stackable": true,
+    "maxStack": 40
+  },
+  {
+    "id": "augmentation_orb",
+    "name": "Orb of Augmentation",
+    "description": "Augments a Magic item with a new random modifier",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Augmentation-orb.webp",
+    "stackable": true,
+    "maxStack": 30
+  },
+  {
+    "id": "regal_orb",
+    "name": "Orb of Regal",
+    "description": "Upgrades a Magic item to a Rare item, adding 1 modifier",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Regal-orb.webp",
+    "stackable": true,
+    "maxStack": 20
+  },
+  {
+    "id": "exalted_orb",
+    "name": "Exalted orb",
+    "description": "Augments a Rare item with a new random modifier",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Exalted-orb.webp",
+    "stackable": true,
+    "maxStack": 20
+  },
+  {
+    "id": "chaos_orb",
+    "name": "Chaos orb",
+    "description": "Removes a random modifier and augments a Rare item with a new random modifier",
+    "type": "currency",
+    "width": 1,
+    "height": 1,
+    "textureUrl": "assets/InventoryImages/Chaos-orb.webp",
+    "stackable": true,
+    "maxStack": 20
+  },
+  {
+    "id": "dueling_wand",
+    "name": "Dueling wand",
+    "description": "Cool wand for cool dudes",
+    "type": "weapon",
+    "width": 1,
+    "height": 3,
+    "textureUrl": "assets/InventoryImages/Dueling-Wand.webp",
+    "stackable": false,
+    "maxStack": null
   }
 ]
