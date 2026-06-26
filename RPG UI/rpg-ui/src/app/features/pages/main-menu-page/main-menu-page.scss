@@ -1,0 +1,172 @@
+@use '../../../../styles/variables' as *;
+
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: $color-bg-main;
+  color: $color-text-main;
+  font-family: $font-primary;
+}
+
+.player-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: $padding * 2;
+  background: $color-bg-panel;
+  border-bottom: 1px solid $color-border;
+}
+
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, $color-accent, darken($color-accent, 25%));
+  border: 1px solid $color-border;
+}
+
+.player-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-name {
+  font-size: 16px;
+  color: $color-accent;
+}
+
+.player-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $success-color;
+  box-shadow: 0 0 8px rgba($success-color, 0.6);
+}
+
+.small-icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+}
+
+.dashboard-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: $gap;
+
+  width: min(1000px, 100%);
+}
+
+.nav-tile {
+  background: $color-bg-panel;
+  border: 1px solid $color-border;
+  border-radius: 16px;
+
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+  pointer-events: auto;
+  transition: 0.2s ease;
+
+  min-height: 170px;
+
+  &:hover {
+    border-color: $color-accent;
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.15);
+  }
+}
+
+.tile-icon {
+  width: 58px;
+  height: 58px;
+  opacity: 0.95;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+.tile-title {
+  font-size: 19px;
+  color: $color-accent;
+}
+
+.tile-desc {
+  font-size: 13px;
+  color: lighten($color-text-main, 25%);
+  opacity: 0.95;
+  text-align: center;
+}
+
+.nav-core {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px dashed $color-border;
+  border-radius: 16px;
+
+  background: lighten($color-bg-panel, 2%);
+  min-height: 170px;
+}
+
+.core-title {
+  font-size: 16px;
+  color: $color-accent;
+  letter-spacing: 2px;
+}
+
+.core-sub {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+.bottom-bar {
+  height: 70px;
+  background: $color-bg-panel;
+  border-top: 1px solid $color-border;
+
+  display: flex;
+  align-items: center;
+  padding: 0 $padding * 2;
+}

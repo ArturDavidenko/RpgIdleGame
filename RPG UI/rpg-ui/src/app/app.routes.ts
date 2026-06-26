@@ -12,6 +12,7 @@ export const routes: Routes = [
     path: '',
     component: MainMenuPage,
     pathMatch: 'full',
+    canActivate: [AuthGuard],
   },
   {
     path: 'testPage',

@@ -5,10 +5,8 @@
 
   <nav class="header__nav">
 
-    <a routerLink="/">Main Menu</a>
-
     <ng-container *ngIf="isAuth$ | async">
-
+      <a routerLink="/">Main Menu</a>
       <a routerLink="/StashInventory">Stash</a>
       <a routerLink="/crafting">Crafting</a>
       <a routerLink="/skills">Skills</a>

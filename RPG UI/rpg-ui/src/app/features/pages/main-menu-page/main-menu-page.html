@@ -1,3 +1,64 @@
-<p>main-menu-page works!</p>
+<div class="dashboard-container">
+  <div class="player-topbar">
 
-<button class="btn">TEST</button>
+    <div class="player-left">
+      <div class="avatar"></div>
+
+      <div class="player-meta">
+        <div class="player-name">Cool_Artur</div>
+        <div class="player-status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <img class="small-icon"
+           src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" />
+    </div>
+
+  </div>
+
+  <div class="dashboard-content">
+
+    <div class="nav-grid">
+
+      <div class="nav-tile">
+        <img class="tile-icon" src="https://cdn-icons-png.flaticon.com/512/854/854878.png" />
+        <div class="tile-title">World Map</div>
+        <div class="tile-desc">Expeditions & exploration</div>
+      </div>
+
+      <div class="nav-tile">
+        <img class="tile-icon" src="https://cdn-icons-png.flaticon.com/512/190/190411.png" />
+        <div class="tile-title">Hideout</div>
+        <div class="tile-desc">Base management</div>
+      </div>
+
+      <div class="nav-core">
+        <div class="core-title">COMMAND HUB</div>
+        <div class="core-sub">Choose activity</div>
+      </div>
+
+      <div class="nav-tile" [routerLink]="['/StashInventory']">
+        <img class="tile-icon" src="https://cdn-icons-png.flaticon.com/512/107/107831.png" />
+        <div class="tile-title">Stash</div>
+        <div class="tile-desc">Storage system</div>
+      </div>
+
+      <div class="nav-tile">
+        <img class="tile-icon" src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" />
+        <div class="tile-title">NPC</div>
+        <div class="tile-desc">Quests & trading</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+
+  </div>
+
+</div>
