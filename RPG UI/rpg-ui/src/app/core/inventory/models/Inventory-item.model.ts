@@ -75,6 +75,16 @@ export interface InventoryItemView {
   maxStack?: number;
 }
 
+export interface InventoryView {
+  id: string;
+  type: string;
+
+  width: number;
+  height: number;
+
+  items: InventoryItemView[];
+}
+
 export const ITEM_DEFINITIONS: ItemDefinition[] = [
   {
     id: 'pickaxe',

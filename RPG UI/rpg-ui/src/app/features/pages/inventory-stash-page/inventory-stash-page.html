@@ -1,0 +1,17 @@
+<div class="stash-window"
+     #windowRef
+     [style.transform]="'translate(' + pos.x + 'px,' + pos.y + 'px)'">
+
+  <div class="stash-header"
+       (mousedown)="startDrag($event)">
+
+    <div class="stash-title">STASH</div>
+    <div class="stash-sub">Drag me like a window</div>
+
+  </div>
+
+  <div class="stash-body">
+    <app-stash-inventory-component></app-stash-inventory-component>
+  </div>
+
+</div>
