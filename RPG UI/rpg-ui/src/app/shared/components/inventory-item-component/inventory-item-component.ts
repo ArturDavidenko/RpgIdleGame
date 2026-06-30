@@ -36,7 +36,13 @@ export class InventoryItemComponent {
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.contextMenuPosition = { x: event.clientX, y: event.clientY };
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+
+    this.contextMenuPosition = {
+      x: rect.right + 6,
+      y: rect.top
+    };
+    
     this.contextMenuVisible = true;
   }
 
@@ -47,7 +53,7 @@ export class InventoryItemComponent {
   onMouseEnter(event: MouseEvent) {
     this.hover.emit(this.item);
 
-    this.tooltipService.show(this.item, event);
+    this.tooltipService.show(this.item, event.currentTarget as HTMLElement);
   }
 
   onMouseLeave() {

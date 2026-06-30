@@ -25,14 +25,16 @@ export class TooltipService {
 
   constructor(private resolver: TooltipResolver) {}
 
-  show(item: InventoryItemView, event: MouseEvent) {
+  show(item: InventoryItemView, anchor: HTMLElement) {
     if (this.isDragging) return;
+
     const model = this.resolver.resolve(item);
+    const rect = anchor.getBoundingClientRect();
 
     this.stateSubject.next({
       visible: true,
-      x: event.clientX,
-      y: event.clientY,
+      x: rect.right - 10,
+      y: rect.top + rect.height / 2,
       model
     });
   }
